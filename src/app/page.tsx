@@ -42,7 +42,7 @@ export default function Home() {
             <p className='text-textLightGrey text-[12px] text-center'>We provide you the best platform to manage your properties </p>
           </div>
         </div>
-        <div className='w-[82%] mx-auto'>
+        <div className='w-[82%] mx-auto mt-[-4rem]'>
           <div className='flex justify-between'>
             <div className='w-[50%] mt-[8rem]'>
               <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[36%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
