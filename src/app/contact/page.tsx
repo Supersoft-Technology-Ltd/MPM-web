@@ -21,7 +21,7 @@ const Modal = () => {
           <div className="flex justify-between flex-col lg:flex-row items-center w-[90%] lg:max-w-[1400px]">
             <div className="flex justify-start mb-6 lg:mb-0 w-full lg:w-[47%] items-center gap-4">
               <div className="h-[40px] transition ease-in-out cursor-pointer duration-500 flex justify-center items-center w-[40px] border border-black rounded-[50%]">
-               <img src="/assets/insta.png" className="w-[30px] h-[30px] object-center object-contain" />
+                <img src="/assets/insta.png" className="w-[30px] h-[30px] object-center object-contain" />
               </div>
               <div className="h-[40px] transition ease-in-out cursor-pointer duration-500 flex justify-center items-center w-[40px] border border-black rounded-[50%]">
                 <AiFillFacebook size={25} fill="#3b5998" />
@@ -30,8 +30,7 @@ const Modal = () => {
             <div className="flex flex-col lg:flex-row w-full lg:w-[47%] justify-between items-start gap-6 lg:gap-0 lg:items-center">
               <div>
                 <p className="font-bold text-lg">My Property Manager</p>
-                <p className="font-regular text-sm">28 Shakiru Anjorin Street, Off Admiralty Way, Lekki Phase One, Lagos, Nigeria</p>
-                <p className="font-regular text-sm">Lagos, Nigeria</p>
+                <p className="font-regular text-sm">28 Shakiru Anjorin Street, Off Admiralty<br/> Way, Lekki Phase One, Lagos, Nigeria</p>
               </div>
               <div>
                 <p className="font-bold text-lg">Phone: 09056454636</p>
@@ -64,12 +63,9 @@ const Modal = () => {
                   placeholder="Message"
                 ></textarea>
                 <p className={`text-xs py-6`}>
-                  By providing your contact information to My Property Manager, you acknowledge and agree to our
-                  Privacy Policy and consent to receiving app-related communications, including notifications,
-                  messages, and emails. Some of these communications may include automated features. Your
-                  consent isn't required for using our app, and you can opt out at any time. To
-                  stop receiving notifications, you can adjust your app settings. To unsubscribe from emails,
-                  you can click on the provided link in the email. Standard message and data rates may apply.
+                  By sharing your contact info with My Property Manager, you accept our Privacy
+                  Policy and agree to receive app-related notifications,
+                  messages, and emails. Opt-out anytime. Standard message/data rates may apply.
                 </p>
                 <button className="w-full lg:w-[300px] bg-blue text-[#FFF] p-[1rem]">Contact Us</button>
               </div>

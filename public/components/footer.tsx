@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export const Footer = () => {
     return (
-        <div className="w-full h-[400px] bg-blue mt-12 flex flex-col justify-between">
+        <div className="w-full h-[400px] bg-[#F0F0F0] mt-12 flex flex-col justify-between">
             <div className=" flex justify-between  py-10 px-[5rem] h-[300px]">
                 <div className="w-[35%] flex flex-col justify-start items-start">
                     <img src='/assets/MPM logo.png' alt='' className="w-[200px] object-center object-cover" />
@@ -15,27 +15,27 @@ export const Footer = () => {
                     </div>
                 </div>
                 <div>
-                    <h6 className="text-[#FFF] font-normal text-[1.2rem]">Privacy Policies</h6>
-                    <Link href={'/terms'} className="text-grey mt-[.5rem] text-[.9rem]">Terms & conditions</Link>
+                    <h6 className="text-textBlack font-normal text-[1.2rem]">Privacy Policies</h6>
+                    <Link href={'/terms'} className="text-textBlack mt-[.5rem] text-[.9rem] font-extralight">Terms & conditions</Link>
                 </div>
                 <div>
-                    <h6 className="text-[#FFF] font-normal text-[1.2rem]"> Our Company</h6>
-                    <p className="text-grey mt-[.5rem] text-[.9rem]">Blog</p>
-                    <p className="text-grey mt-[.2rem] text-[.9rem]">About Us</p>
-                    <p className="text-grey mt-[.2rem] text-[.9rem]">Careers</p>
-                    <p className="text-grey mt-[.2rem] text-[.9rem]">FAQs</p>
+                    <h6 className="text-textBlack font-normal text-[1.2rem]"> Our Company</h6>
+                    <p className="text-textBlack mt-[.5rem] text-[.9rem] font-extralight">Blog</p>
+                    <p className="text-textBlack mt-[.2rem] text-[.9rem] font-extralight">About Us</p>
+                    <p className="text-textBlack mt-[.2rem] text-[.9rem] font-extralight">Careers</p>
+                    <p className="text-textBlack mt-[.2rem] text-[.9rem] font-extralight">FAQs</p>
                 </div>
                 <div>
-                    <h6 className="text-[#FFF] font-normal text-[1.2rem]">Our Products</h6>
-                    <p className="text-grey mt-[.5rem] text-[.9rem]">Download our app</p>
-                    <p className="text-grey mt-[.2rem] text-[.9rem]">Manage Tenancy</p>
-                    <p className="text-grey mt-[.2rem] text-[.9rem]">Manage properties</p>
+                    <h6 className="text-textBlack font-normal text-[1.2rem]">Our Products</h6>
+                    <p className="text-textBlack mt-[.5rem] text-[.9rem] font-extralight">Download our app</p>
+                    <p className="text-textBlack mt-[.2rem] text-[.9rem] font-extralight">Manage Tenancy</p>
+                    <p className="text-textBlack mt-[.2rem] text-[.9rem] font-extralight">Manage properties</p>
                 </div>
             </div>
             <div className="border-t-[1px] border-black-500 bg-[#000] mt-2 h-[100px] flex justify-between items-center px-12">
                 <div className='flex items-center'>
                     <BiCopyright fill='#C8C8C9' />
-                    <p className='ml-2 text-grey text-[.9rem]'>2023 All Rights Reserved.</p>
+                    <p className='ml-2 text-[#C8C8C9] text-[.9rem]'>2023 All Rights Reserved.</p>
                 </div>
                 <div className='flex'>
                     <FiFacebook color='#3b5998' size={30} />

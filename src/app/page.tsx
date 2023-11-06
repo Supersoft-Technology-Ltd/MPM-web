@@ -1,8 +1,10 @@
+'use-client'
 import Image from 'next/image'
 import { Layout } from '../../public/components/layout'
 import { PiLightningDuotone, PiCoinsDuotone, PiHandsClapping } from 'react-icons/pi'
 import { FaSlidersH } from 'react-icons/fa';
 import { BsCash } from 'react-icons/bs'
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -10,9 +12,11 @@ export default function Home() {
       <Layout>
         <div className='w-[93%] mx-auto mt-12 h-[550px] bg-blue flex justify-between'>
           <div className=' px-8 py-[8rem]'>
-            <h4 className='text-[#FFF] text-[2.8rem] font-medium leading-[3.7rem]'>Property Management<br/> Made easy</h4>
+            <h4 className='text-[#FFF] text-[2.8rem] font-medium leading-[3.7rem]'>Property Management<br /> Made easy</h4>
             <p className='mt-[1rem] text-greyWhite text-[1rem]'>Simplify Administration and Management of your Properties …</p>
-            <button className='bg-colorPrimary text-colorPrimary px-[2rem] py-[1rem] mt-12 rounded font-normal'>Contact Us</button>
+            <button className='bg-colorPrimary text-colorPrimary px-[2rem] py-[1rem] mt-12 rounded font-normal'>
+             <Link href={'/contact'}> Contact Us</Link>
+            </button>
           </div>
           <img src='/assets/house.jpg' className='w-[45%] h-auto object-center object-cover' alt='' />
         </div>
@@ -41,19 +45,19 @@ export default function Home() {
         <div className='w-[80%] mx-auto'>
           <div className='flex justify-between'>
             <div className='w-[50%] mt-[8rem]'>
-              <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[30%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
-              <h4 className='text-darkText pt-4 font-medium tracking-wide text-[32px] leading-[2.7rem]'>Effortless Property Management <br/>at Your Fingertips</h4>
+              <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[36%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
+              <h4 className='text-darkText pt-4 font-medium tracking-wide text-[32px] leading-[2.7rem]'>Effortless Property Management <br />at Your Fingertips</h4>
               <p className='mt-[1rem] text-textLightGrey text-[.85rem] leading-[1.3rem]'>Simplify the administration and management of your properties with our
                 user-friendly and feature-rich platform. Whether you're a landlord, tenant,
                 or property manager, our app
                 streamlines your property-related tasks, making property management a breeze.</p>
             </div>
-            <img src='/assets/1st.png' className='w-[45%] h-full object-center object-cover'/>
+            <img src='/assets/1st.png' className='w-[45%] h-full object-center object-cover' />
           </div>
           <div className='flex justify-between'>
             <img src='/assets/2nd.png' className='w-[42%] h-full object-center object-cover' />
             <div className='w-[50%] mt-[8rem]'>
-              <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[30%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
+              <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[36%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
               <h4 className='text-darkText pt-4 font-medium tracking-wide text-[32px] leading-[2.7rem]'>Enhancing Your Rental Experience</h4>
               <p className='mt-[1rem] text-textLightGrey text-[.85rem] leading-[1.3rem]'>Discover the advantages of MYPROPSMANAGER.COM, where we offer an
                 efficiently streamlined platform designed to cater to the needs
@@ -63,11 +67,11 @@ export default function Home() {
           </div>
           <div className='flex justify-between'>
             <div className='w-[50%] mt-[8rem]'>
-              <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[30%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
+              <p className='px-[.5rem] py-[.7rem] bg-[#ced4f3] bg-opacity[0.8] w-[37%] text-colorPrimary text-[11px] font-normal tracking-wider text-center'>WHY MYPROPSMANAGER?</p>
               <h4 className='text-darkText pt-4 font-medium tracking-wide text-[32px] leading-[2.7rem]'>Effortless Documentation Management</h4>
               <p className='mt-[1rem] text-textLightGrey text-[.85rem] leading-[1.3rem]'>Effortlessly Organize, Conveniently Access, and Securely Manage Your Property Records on Our Platform</p>
             </div>
-            <img src='/assets/3rd.png' className='w-[40%] h-full object-center object-cover'/>
+            <img src='/assets/3rd.png' className='w-[40%] h-full object-center object-cover' />
           </div>
         </div>
       </Layout>
