@@ -5,7 +5,6 @@ import {
   AiFillInstagram,
   AiOutlineClose,
 } from "react-icons/ai";
-import { GoogleMap, Marker } from "react-google-maps";
 import GoogleMapComponent from '../../../public/components/map'
 import { Dispatch, FC, SetStateAction } from "react";
 import { Layout } from "../../../public/components/layout";
