@@ -25,3 +25,14 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+.terms-container p{
+padding: 1rem 0;
+}
+.terms-container{
+  padding: 2rem 3rem;
+  background-color: #FFF;
+}
+
+.terms-container ul {
+  list-style: disc;
+}
