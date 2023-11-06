@@ -30,7 +30,7 @@ const Modal = () => {
             <div className="flex flex-col lg:flex-row w-full lg:w-[50%] justify-between items-start gap-6 lg:gap-0 lg:items-center">
               <div>
                 <p className="font-bold text-lg">My Property Manager</p>
-                <p className="font-regular text-sm">28 Shakiru Anjorin Street, Off Admiralty<br/> Way, Lekki Phase One, Lagos, Nigeria</p>
+                <p className="font-regular text-sm">28 Shakiru Anjorin Street, Off Admiralty<br /> Way, Lekki Phase One, Lagos, Nigeria</p>
               </div>
               <div>
                 <p className="font-bold text-lg">Phone: 09056454636</p>
