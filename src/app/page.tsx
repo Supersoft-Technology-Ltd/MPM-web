@@ -29,7 +29,7 @@ export default function Home() {
           <div className='flex flex-col items-center justify-center'>
             <FaSlidersH fill='#0041A0' size={35} />
             <h4 className='text-darkText pt-4 font-normal tracking-wide text-center text-[14px]'>Centralized Property Control</h4>
-            <p className='text-textLightGrey text-[12px] text-center'>Manage multiple properties all from one <br/> centralized dashboard</p>
+            <p className='text-textLightGrey text-[12px] text-center'>Manage multiple properties all from one centralized dashboard</p>
           </div>
           <div className='flex flex-col items-center justify-center'>
             <PiCoinsDuotone fill='#0041A0' size={35} />
