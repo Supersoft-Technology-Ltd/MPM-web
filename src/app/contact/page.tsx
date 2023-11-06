@@ -10,12 +10,9 @@ import GoogleMapComponent from '../../../public/components/map'
 import { Dispatch, FC, SetStateAction } from "react";
 import { Layout } from "../../../public/components/layout";
 
-type props = {
-  visible: boolean;
-  setVisible: Dispatch<SetStateAction<boolean>>;
-};
 
-const Modal: FC<props> = ({ visible, setVisible }) => {
+
+const Modal = () => {
   return (
     <Layout>
       <div className="bg-white w-full h-fit py-10 lg:py-0 lg:h-[100vh] text-black">
