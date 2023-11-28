@@ -10,6 +10,7 @@ module.exports = {
     extend: {
       colors: {
         colorPrimary: '#0041A0',
+        colorRed: '#EB212D',
         icon: '#00001D',
         shadowText: 'rgba(3, 3, 3, 0.40)',
         opaqueWhite: 'rgba(255, 255, 255, 0.22)',
@@ -21,7 +22,6 @@ module.exports = {
         lighterGrey: "rgba(200, 200, 201, 0.13)",
         grey: '#C8C8C9',
         grey2: 'rgba(176, 179, 186, 0.10)',
-        'grey0.13': "rgba(200, 200, 201, 0.13)",
         grey3: 'rgba(0, 11, 34, 0.60)',
         textBlack: '#000000',
         darkText: '#030303',
@@ -38,7 +38,7 @@ module.exports = {
         socialText: '#212121',
         termsTitle: '#707070',
         titleText: 'rgba(148, 148, 150, 0.75)',
-        container: 'rgba(255, 255, 255, 0.8)',
+        container: 'rgba(255, 255, 255, 0.9)',
         overlay: 'rgba(3, 3, 3, 0.94)',
         naira: 'rgba(27, 42, 59, 0.80)',
         success_message: '#777779',
@@ -48,6 +48,10 @@ module.exports = {
         address: 'rgba(0, 11, 34, 0.60)',
         backgroundColor: '#0041A0'
 
+      },
+      boxShadow: {
+        sm: '0px 3px 6px #00000029',
+        none: 'none',
       },
       backgroundImage: {
         'hero-pattern': "url('/assets/bg.png')",
