@@ -22,6 +22,7 @@ module.exports = {
         lighterGrey: "rgba(200, 200, 201, 0.13)",
         grey: '#C8C8C9',
         grey2: 'rgba(176, 179, 186, 0.10)',
+        grey4: 'rgba(176, 179, 186, 0.2)',
         grey3: 'rgba(0, 11, 34, 0.60)',
         textBlack: '#000000',
         darkText: '#030303',
@@ -46,12 +47,15 @@ module.exports = {
         success_text: '#000000D9',
         download_icon: 'rgba(2, 130, 173, 0.71)',
         address: 'rgba(0, 11, 34, 0.60)',
-        backgroundColor: '#0041A0'
-
+        backgroundColor: '#0041A0',
+        border_color: 'rgba(209, 209, 211, 0.5)',
+        text_color: 'rgba(36, 42, 55, 0.65)'
       },
       boxShadow: {
         sm: '0px 3px 6px #00000029',
         none: 'none',
+        sh: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;',
+        th: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;'
       },
       backgroundImage: {
         'hero-pattern': "url('/assets/bg.png')",

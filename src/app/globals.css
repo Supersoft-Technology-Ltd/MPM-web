@@ -36,3 +36,6 @@ padding: 1rem 0;
 .terms-container ul {
   list-style: disc;
 }
+.carousel .carousel-status{
+display: none;
+}
