@@ -44,10 +44,11 @@ const Sidebar = () => {
   useEffect(() => {
     if (path) {
       const id =
-        options.findIndex((ele: any) => ele?.page?.includes(path)) || 0;
+        options.findIndex((ele: any) => path?.includes(ele?.page)) || 0;
       setActive(id + 1);
     }
   }, [path]);
+
   return (
     <div className="w-[19.2%] z-[1000] bg-container shadow-sh fixed border-border_color h-full top-0 left-0">
       <div className="w-full h-[125px] border-b border-border_color bg-[#FFFFFF] flex justify-center items-center">

@@ -23,7 +23,7 @@ module.exports = {
         grey: '#C8C8C9',
         grey2: 'rgba(176, 179, 186, 0.10)',
         grey4: 'rgba(176, 179, 186, 0.2)',
-        grey3: 'rgba(0, 11, 34, 0.60)',
+        grey3: 'rgba(0, 11, 34, 0.30)',
         textBlack: '#000000',
         darkText: '#030303',
         textBlack2: '#242A37',
@@ -59,6 +59,7 @@ module.exports = {
       },
       backgroundImage: {
         'hero-pattern': "url('/assets/bg.png')",
+       'financials': "url('/assets/financial2.png')"
       },
       backgroundColor: {
         colorPrimary: '#FFF',

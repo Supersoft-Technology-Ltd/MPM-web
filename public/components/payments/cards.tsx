@@ -10,36 +10,36 @@ export const PaymentCards = [
         id: 1,
         img: rent,
         text: 'Pay Rent',
-        action: "Pay Rent"
+        action: "Pay rent"
     },
-    {
-        id: 2,
-        img: bills,
-        text: 'Pay Bills',
-        action: "Pay Bills"
-    },
-    {
-        id: 3,
-        img: airtime,
-        text: 'Airtime Topup',
-        action: "Airtime Topup"
-    },
-    {
-        id: 4,
-        img: request,
-        text: 'Request Payment',
-        action: "Request Payment"
-    },
+    // {
+    //     id: 2,
+    //     img: bills,
+    //     text: 'Pay Bills',
+    //     action: "Pay bills"
+    // },
+    // {
+    //     id: 3,
+    //     img: airtime,
+    //     text: 'Airtime Topup',
+    //     action: "Airtime topup"
+    // },
+    // {
+    //     id: 4,
+    //     img: request,
+    //     text: 'Request Payment',
+    //     action: "Request payment"
+    // },
     {
         id: 5,
         img: financials,
         text: 'Your Financials',
-        action: "Your Financials"
+        action: "Your financials"
     },
     {
         id: 6,
         img: history,
         text: 'Transaction History',
-        action: "Transaction History"
+        action: "Transaction history"
     },
 ]
