@@ -69,7 +69,7 @@ export const Raleway = localFont({
       style: "light",
     },
     {
-      path: "./Raleway-Semibold.ttf",
+      path: "./Raleway-SemiBold.ttf",
       weight: "200",
       style: "light",
     },

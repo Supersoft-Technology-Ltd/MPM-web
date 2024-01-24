@@ -8,15 +8,15 @@ type props = {
   setModalIsOpen: React.Dispatch<SetStateAction<any>>;
   setAddUnitModal: React.Dispatch<SetStateAction<any>>;
 };
-export const AddUnit = ({ setModalIsOpen, setAddUnitModal}: props) => {
+export const AddUnit = ({ setModalIsOpen, setAddUnitModal }: props) => {
   const options = [
     {
       label: "Two Bedroom Apartment",
-      value: 1,
+      value: "1",
     },
     {
       label: "Two Bedroom Apartment",
-      value: 2,
+      value: "2",
     },
   ];
   return (
@@ -24,8 +24,8 @@ export const AddUnit = ({ setModalIsOpen, setAddUnitModal}: props) => {
       width="35%"
       title="Add Units"
       handleModalClose={() => {
-        setAddUnitModal(false)
-        setModalIsOpen(true)
+        setAddUnitModal(false);
+        setModalIsOpen(true);
       }}
       goBack={true}
     >
@@ -44,7 +44,20 @@ export const AddUnit = ({ setModalIsOpen, setAddUnitModal}: props) => {
           >
             Unit Type
           </label>
-          <StatusSelect options={options} placeholder="Duration" />
+          <StatusSelect
+            options={[
+              { label: "Landlord", value: "LANDLORD" },
+              { label: "Tenant", value: "TENANT" },
+              { label: "Property Manager", value: "PROPERTY MANAGER" },
+            ]}
+            value={''}
+            onChange={() => null}
+            onBlur={() => null}
+            err={false}
+            errMsg={'errors.role'}
+            
+            placeholder="Duration"
+          />
         </div>
         <div className="mt-4">
           <label
