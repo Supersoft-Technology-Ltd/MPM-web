@@ -33,7 +33,7 @@ module.exports = {
         dropShadow: 'rgba(0, 0, 0, 0.10)',
         otptext: 'rgba(0, 0, 0, 0.85)',
         cardBg: "#fff",
-        modalBg: "rgba(0, 0, 0, 0.5)",
+        modalBg: "rgba(0, 0, 0, 0.6)",
         dateMonthColor: "#A3A3A3",
         darkText3: "#000B22",
         socialText: '#212121',
@@ -49,7 +49,11 @@ module.exports = {
         address: 'rgba(0, 11, 34, 0.60)',
         backgroundColor: '#0041A0',
         border_color: 'rgba(209, 209, 211, 0.5)',
-        text_color: 'rgba(36, 42, 55, 0.65)'
+        text_color: 'rgba(36, 42, 55, 0.65)',
+        text_color2: `rgba(33, 37, 37, 0.5)`,
+        border: `rgba(209, 209, 211, 0.31)`,
+        download: `rgba(2, 130, 173, 0.61)`,
+        invite: `rgba(182, 251, 0, 0.35)`
       },
       boxShadow: {
         sm: '0px 3px 6px #00000029',

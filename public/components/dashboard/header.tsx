@@ -6,7 +6,7 @@ import { Lora } from "../../fonts";
 
 export const DashboardHeader = () => {
   return (
-    <div className="w-[80.8%] shadow-sh z-10 fixed left-[19.2%] flex justify-between items-center px-12 top-0 h-[125px] bg-[#FFFFFF] border-b border-border_color">
+    <div className="w-[82.5%] shadow-sh z-10 fixed left-[17.5%] flex justify-between items-center px-12 top-0 h-[115px] bg-[#FFFFFF] border-b border-border_color">
       <div className="w-[40%]">
         <Inputs
           placeholder="Enter address to search property"

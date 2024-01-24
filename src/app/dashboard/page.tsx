@@ -2,17 +2,24 @@
 
 import { DashboardLayout } from "../../../public/components/dashboard/layout";
 import { Lora } from "../../../public/fonts";
-import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import {
   TenancyCard,
   TenancyBox,
 } from "../../../public/components/tenancy-card";
 import { CgPlayListAdd } from "react-icons/cg";
+import { useState } from "react";
+import { InviteOthers } from "../../../public/components/dashboard/invite-others";
 
 const Dashboard = () => {
+  const [openInviteModal, setOpenInviteModal] = useState(false);
+
   return (
     <DashboardLayout>
+      {openInviteModal && (
+        <InviteOthers setOpenInviteModal={setOpenInviteModal} />
+      )}
       <div className={`${Lora.className} flex items-center justify-start`}>
         <p className="text-textBlack2 font-light text-[15px] py-4">
           You are Here {`>>`}
@@ -20,7 +27,7 @@ const Dashboard = () => {
         <h5 className="font-medium text-textBlack2 text-[16px] ml-2">Home</h5>
       </div>
       <div className="border border-[rgba(0, 65, 160, 0.1)] h-[166px] px-4 pb-4">
-        <Carousel>
+        <Carousel autoPlay={true}>
           <div>
             <div className="flex items-center">
               <div className="w-[160px] h-[160px]">
@@ -106,6 +113,7 @@ const Dashboard = () => {
                     Others” to share the app with them.{" "}
                     <span
                       className={`${Lora.className} font-normal underline text-text_color`}
+                      onClick={() => setOpenInviteModal(true)}
                     >
                       Click to Invite Others
                     </span>
@@ -116,9 +124,13 @@ const Dashboard = () => {
           </div>
         </Carousel>
       </div>
-      <div className="w-full h-[140px] rounded-[1rem] px-4 mt-6 shadow-sm flex flex-col justify-center">
+      <div className="w-full h-[140px] rounded-[1rem] px-4 mt-6 shadow-sm bg-[#FFF] flex flex-col justify-center">
         <div className="flex items-center mb-2 justify-between">
-          <p className={`${Lora.className} font-light text-textBlack2 text-[15px]`}>Listed Properties</p>
+          <p
+            className={`${Lora.className} font-light text-textBlack2 text-[15px]`}
+          >
+            Listed Properties
+          </p>
           <div className="flex items-center">
             <CgPlayListAdd className="text-address text-[14px]" />
             <p

@@ -39,3 +39,13 @@ padding: 1rem 0;
 .carousel .carousel-status{
 display: none;
 }
+table{
+  padding: 20px !important;
+  border-spacing: 0;
+}
+tr{
+  box-sizing: border-box;
+}
+td, th {
+  padding: 12px; /* Apply padding to table cells */
+}

@@ -24,7 +24,7 @@ const options = [
     title: "Portfolio",
     icon: <FaMailBulk />,
     id: 3,
-    page: "",
+    page: "/portfolio",
   },
   {
     title: "More",
@@ -50,14 +50,14 @@ const Sidebar = () => {
   }, [path]);
 
   return (
-    <div className="w-[19.2%] z-[1000] bg-container shadow-sh fixed border-border_color h-full top-0 left-0">
-      <div className="w-full h-[125px] border-b border-border_color bg-[#FFFFFF] flex justify-center items-center">
+    <div className="w-[17.5%] z-[1000] bg-container shadow-sh fixed border-border_color h-full top-0 left-0">
+      <div className="w-full h-[115px] border-b border-border_color bg-[#FFFFFF] flex justify-center items-center">
         <img
           src="/assets/MPM logo.png"
           className="object-center object-contain w-[50%]"
         />
       </div>
-      <div className="border-b border-border_color p-10" />
+      <div className="border-b border-border_color py-10 px-8" />
       <div>
         {options.map((option) => (
           <div

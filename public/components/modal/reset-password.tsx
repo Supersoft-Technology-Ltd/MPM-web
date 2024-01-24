@@ -1,10 +1,9 @@
 'use client'
 import { Lora, Raleway } from "../../fonts"
 import { Button } from "../button"
-import { AiOutlineCopyrightCircle } from 'react-icons/ai'
 import { useRouter } from "next/navigation"
 import Otp from "../otp-input"
-import { SuccessModal } from "."
+import { SuccessModal } from "./successmodal"
 import { useState } from "react"
 import { EnterPassword } from "./enter-pasword"
 

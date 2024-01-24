@@ -5,11 +5,11 @@ import { ReactNode } from "react";
 
 export const DashboardLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <div className="w-full relative bg-hero-pattern h-[100vh] bg-container bg-center bg-cover ">
+    <div className="w-full overflow-auto relative bg-hero-pattern h-screen pb-12 bg-container bg-center bg-cover ">
       <Sidebar />
       <div className="">
         <DashboardHeader />
-        <div className="mt-[125px] w-[80%] pt-2 ml-[20%] px-6 relative">{children}</div>
+        <div className="mt-[115px] w-[82%] pt-2 ml-[18%] px-6 relative">{children}</div>
       </div>
     </div>
   );

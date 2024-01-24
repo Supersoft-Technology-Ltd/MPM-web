@@ -1,10 +1,10 @@
-import { SuccessModal } from "."
 import { Lora, Raleway } from "../../fonts"
 import { Button } from "../button"
 import { useRouter } from "next/navigation"
 import { Inputs } from "../input"
 import { useState } from "react"
 import { Success } from "./success"
+import { SuccessModal } from "./successmodal"
 
 export const EnterPassword = () => {
     const [open, setOpen] = useState(false)

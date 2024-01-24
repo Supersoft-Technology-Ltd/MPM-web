@@ -8,25 +8,38 @@ import Image from "next/image";
 import { ModalLayout } from "../../../public/components/modal-layout";
 import { ModalCardLayout } from "../../../public/components/modal-layout-2";
 import { useRouter } from "next/navigation";
-
-
+import { ModalContainer } from "../../../public/components/modal";
+import { Transaction } from "../../../public/components/transactions";
+import { Data } from "../../../public/components/transactions/data";
+import { SuccessfulPayment } from "../../../public/components/payments/bill-successful";
+import { rentDetails } from "../../../public/components/property-details";
 
 const Payment = () => {
-  const [action, setAction] = useState<'Pay rent'| 'Your financials' | "">("");
-  const [modalIsOpen, setModalIsOpen] = useState(false)
+  const [action, setAction] = useState<
+    "Pay rent" | "Your financials" | "Transaction history" | ""
+  >("");
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const router = useRouter()
+  const [openTransactionModal, setOpenTransactionModal] =
+    useState<boolean>(false);
+  const [openReceipt, setOpenReceipt] = useState(false);
+  const router = useRouter();
 
   const handleCardClick = (selectedAction: any) => {
     setAction(selectedAction);
-    if(selectedAction === 'Pay rent'){
-      setModalIsOpen(true)
+    if (selectedAction === "Pay rent") {
+      setModalIsOpen(true);
     }
-    if(selectedAction === 'Your financials'){
-      router.push(`/payment/your-financials`)
+    if (selectedAction === "Your financials") {
+      router.push(`/payment/your-financials`);
     }
-  }
-
+    if (selectedAction === "Transaction history") {
+      setOpenTransactionModal(true);
+    }
+  };
+  const handleModalClose = () => {
+    setOpenTransactionModal(false);
+  };
   return (
     <DashboardLayout>
       <div className={`${Lora.className} flex items-center justify-start`}>
@@ -59,19 +72,45 @@ const Payment = () => {
           </div>
         ))}
       </div>
-      {
-        action === 'Pay rent' && 
-       <ModalLayout 
-       setOpenModal={setOpenModal}
-       location="10 Alake Street, Victoria Island. Lagos" 
-       propertyID="Property not registered in Mypropsmanger"
-       rent_amount="₦ 1,350,000. 00"
-       rent_due_date="25/02/2024"
-       landlord="Not Specified"
-       setModalIsOpen={setAction}/>
-      }
-      {openModal && <ModalCardLayout setOpenModal={setOpenModal}/>}
-
+      {action === "Pay rent" && (
+       <>
+       {modalIsOpen &&
+         <ModalLayout
+         handleModalOpen={() => {
+           setOpenModal(true);
+           setModalIsOpen(false);
+         }}
+         title="Pay Rent"
+         subText="Rent Recipient Property"
+         buttonTitle="Next"
+         setModalIsOpen={setAction}
+         arrList={rentDetails.map((elem) => ({
+           label: elem.name,
+           value: elem.value,
+         }))}
+       />
+       }
+       </>
+      )}
+      {openModal && <ModalCardLayout setOpenModal={setOpenModal} />}
+      {action === "Transaction history" && openTransactionModal && (
+        <ModalContainer
+          width="60%"
+          goBack={true}
+          handleModalClose={handleModalClose}
+          title="Transaction History"
+        >
+          <Transaction
+            setOpenReceipt={setOpenReceipt}
+            setOpenTransactionModal={setOpenTransactionModal}
+            width="10%"
+            height="45px"
+            data={Data}
+            menu={true}
+          />
+        </ModalContainer>
+      )}
+      {openReceipt && <SuccessfulPayment setOpenReceipt={setOpenReceipt} />}
     </DashboardLayout>
   );
 };
