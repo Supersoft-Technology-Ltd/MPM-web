@@ -51,7 +51,19 @@ export const ModalCardLayout: React.FC<props> = ({ setOpenModal }) => {
           </p>
         </div>
         <div className="mt-4">
-          <StatusSelect placeholder="Choose payment option" options={options} />
+          <StatusSelect
+            placeholder=""
+            options={[
+              { label: "Landlord", value: "LANDLORD" },
+              { label: "Tenant", value: "TENANT" },
+              { label: "Property Manager", value: "PROPERTY MANAGER" },
+            ]}
+            value={""}
+            onChange={() => null}
+            onBlur={() => null}
+            err={false}
+            errMsg={"errors.role"}
+          />
         </div>
         <div className="flex justify-center items-center w-[95%] mt-6 pb-2 gap-[5%] mx-auto">
           <div className="w-[45%]">

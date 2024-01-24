@@ -11,7 +11,7 @@ export const signUp = createAsyncThunk(
         url: `${BASE_URL}/accounts/create-user`,
         method: 'post',
         data: data,
-        withCredentials: true,
+        // withCredentials: true,
       });
 
       // const response = await fetch.post(`${BASE_URL}/accounts/create-user`, {

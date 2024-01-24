@@ -58,8 +58,8 @@ module.exports = {
       boxShadow: {
         sm: '0px 3px 6px #00000029',
         none: 'none',
-        sh: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;',
-        th: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;'
+        sh: 'rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px',
+        th: 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
       },
       backgroundImage: {
         'hero-pattern': "url('/assets/bg.png')",

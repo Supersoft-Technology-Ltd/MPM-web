@@ -5,7 +5,7 @@ import { FaHome, FaMailBulk, FaAngleRight } from "react-icons/fa";
 import { RiWallet3Line } from "react-icons/ri";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { Lora } from "../../fonts";
-import { useRouter, usePathname, useParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 const options = [
   {

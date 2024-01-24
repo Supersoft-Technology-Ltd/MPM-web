@@ -61,8 +61,7 @@ const Payment = () => {
               alt=""
               width={50}
               height={50}
-              objectFit="center"
-              objectPosition="contain"
+             
             />
             <p
               className={`${Lora.className} text-[#212524] font-light text-[15px] ml-4`}

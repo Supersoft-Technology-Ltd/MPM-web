@@ -18,16 +18,6 @@ const Register = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const dispatch = useAppThunkDispatch();
-  const options = [
-    {
-      label: "Landlord",
-      value: 1,
-    },
-    {
-      label: "Tenant",
-      value: 1,
-    },
-  ];
   const {
     handleSubmit,
     handleChange,
