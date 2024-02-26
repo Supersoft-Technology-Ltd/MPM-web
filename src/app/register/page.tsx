@@ -7,12 +7,12 @@ import { Inputs, NumberInput } from "../../../public/components/input";
 import { StatusSelect } from "../../../public/components/select";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Success } from "../../../public/components/modal/success";
 import { useFormik } from "formik";
 import { signUpValidationSchema } from "../../../public/utils/schema/auth";
 import { useAppThunkDispatch, useAppSelector } from "@/redux/store";
 import { signUp } from "../../../src/redux/reducers/auth/thunk-action";
 import { ToastContainer, toast } from "react-toastify";
+import { ResetPassword } from "../../../public/components/modal/reset-password";
 
 const Register = () => {
   const router = useRouter();
@@ -48,12 +48,10 @@ const Register = () => {
       };
       await dispatch(signUp(payload)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
-          // toast.success("Account created successfully");
+          toast.success("Account created successfully");
           setOpen(true);
-          router.push("/login");
         } else {
           console.log(res?.payload?.data?.response);
-          toast.error(res?.payload?.data?.response || "An error occured");
         }
       });
     },
@@ -61,7 +59,7 @@ const Register = () => {
 
   return (
     <Auth>
-      <div className="w-[70%] mx-[10%] bg-[#FFFFFF] h-auto my-[6%] px-[7%] py-6 rounded-[10px] shadow-sm">
+      <div className="lg:w-[70%] lg:mx-[10%] mx-[2.5%] w-[95%] bg-[#FFFFFF] h-auto my-[6%] px-[7%] py-6 rounded-[10px] shadow-sm">
         <div className="flex flex-col items-center">
           <h3
             className={`${Lora.className} font-semibold text-[24px] text-textBlack2`}
@@ -159,10 +157,9 @@ const Register = () => {
         </div>
       </div>
       {open && (
-        <Success
-          title="Account created"
-          text={`Your account has \n successfully been created`}
-          subtext="Kindly login to access your MPM profile"
+        <ResetPassword
+          title="Verify Email"
+          subText="Please enter the verify email PIN sent to your email."
         />
       )}
     </Auth>

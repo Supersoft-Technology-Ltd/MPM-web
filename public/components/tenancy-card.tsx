@@ -3,7 +3,7 @@ import { Lora } from "../fonts";
 import { ReactNode } from "react";
 export const TenancyCard = () => {
   return (
-    <div className="w-full h-[70px] border border-[rgba(0, 65, 160, 0.3)] rounded-[1rem] flex items-center justify-start px-2">
+    <div className="w-full lg:h-[70px] h-[95px] md:h-[90px] py-2 border border-[rgba(0, 65, 160, 0.3)] rounded-[1rem] flex items-center justify-start px-2">
       <div className="w-[45px] h-[45px] bg-grey4 rounded-[12px] flex items-center justify-center">
         <ImLocation2 color="#EB212D" size={19} />
       </div>
@@ -28,7 +28,7 @@ type props = {
 };
 export const TenancyBox = ({ name, subtext, add }: props) => {
   return (
-    <div className="w-full h-[70px] border border-[rgba(0, 65, 160, 0.3)] cursor-pointer rounded-[1rem] py-2 px-2">
+    <div className="w-full lg:h-[70px] h-[95px] md:h-[90px] border border-[rgba(0, 65, 160, 0.3)] cursor-pointer rounded-[1rem] py-2 px-2">
       <div className="flex justify-between items-center">
         <p className={`${Lora.className} font-light text-darkText text-[12px]`}>
           {name}

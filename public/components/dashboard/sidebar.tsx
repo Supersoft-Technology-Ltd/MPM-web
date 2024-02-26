@@ -50,7 +50,7 @@ const Sidebar = () => {
   }, [path]);
 
   return (
-    <div className="w-[17.5%] z-[1000] bg-container shadow-sh fixed border-border_color h-full top-0 left-0">
+    <div className=" lg:w-[17.5%] md:w-[22%] z-[1000] bg-container shadow-sh fixed border-border_color h-full top-0 left-0">
       <div className="w-full h-[115px] border-b border-border_color bg-[#FFFFFF] flex justify-center items-center">
         <img
           src="/assets/MPM logo.png"

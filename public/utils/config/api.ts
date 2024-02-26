@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://mychattelmanager.com/api/v1'
+export const BASE_URL = 'http://mychattelmanager.com:3001/api/v1'

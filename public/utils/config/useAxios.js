@@ -4,7 +4,7 @@ let token = "";
 // console.log(typeof window, "window");
 export const getToken = () => {
   if (typeof window !== "undefined") {
-    token = localStorage.getItem("token") || "{}";
+    token = localStorage.getItem("accessToken") || "{}";
   }
   return token;
 };
@@ -19,7 +19,6 @@ const useAxios = async (request) => {
       authorization: `Bearer ${getToken()}`,
       // mode: "cors",
       'Content-Type': 'application/json',
-      'Cache-Control': 'no-cache',
     },
 
   });
@@ -41,6 +40,6 @@ const useAxios = async (request) => {
     console.log("clear");
     localStorage.clear();
   }
-  return resp.json();
+  return resp;
 };
 export default useAxios;

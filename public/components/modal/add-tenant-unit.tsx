@@ -8,6 +8,15 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import { Button } from "../button";
+import { useFormik } from "formik";
+import { AddTenantValidationSchema } from "../../utils/schema/unit";
+import { AddTenantToOneUnit } from "@/redux/reducers/unit/thunk-action";
+import { useAppThunkDispatch } from "@/redux/store";
+import { useProperties } from "../../context/property-context";
+import moment from "moment";
+import Slider from "rc-slider";
+import "rc-slider/assets/index.css";
+import { useMediaQuery } from "../../hooks/usemediaquery";
 
 type props = {
   setOpenAddTenantModal: React.Dispatch<SetStateAction<any>>;
@@ -16,15 +25,48 @@ export const AddTenantToUnit = ({ setOpenAddTenantModal }: props) => {
   const [startDate, setStartDate] = useState(new Date());
   const [open, setOpen] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const notify = () => {
-    toast.success("Tenant added successfully", {
-      position: "top-right",
-      autoClose: 5000,
-    });
-  };
+  const dispatch = useAppThunkDispatch();
+  const { oneUnit } = useProperties();
+  const matches = useMediaQuery("(min-width: 767px)");
+  const {
+    handleSubmit,
+    handleChange,
+    handleBlur,
+    errors,
+    touched,
+    setFieldValue,
+    setFieldError,
+    values,
+  } = useFormik({
+    initialValues: {
+      tenantEmail: "",
+      tenantDuration: "12",
+      moveInDate: "",
+      lastPaymentDate: "",
+    },
+    validationSchema: AddTenantValidationSchema,
+    onSubmit: async (values) => {
+      const payload = {
+        tenantEmail: values.tenantEmail,
+        tenantDuration: `${values.tenantDuration} months`,
+        moveInDate: values.moveInDate,
+        lastPaymentDate: values.lastPaymentDate,
+        unitId: oneUnit.id,
+      };
+      await dispatch(AddTenantToOneUnit(payload)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          toast.success("Tenant added successfully");
+          setOpenAddTenantModal(false);
+        } else {
+          console.log(res?.payload?.data?.response);
+        }
+      });
+    },
+  });
+  console.log(values.tenantDuration, "values.moveInDate");
   return (
     <ModalContainer
-      width="35%"
+      width={matches ? "35%" : "80%"}
       title="Add Tenant to Unit"
       goBack={true}
       handleModalClose={() => setOpenAddTenantModal(false)}
@@ -36,7 +78,16 @@ export const AddTenantToUnit = ({ setOpenAddTenantModal }: props) => {
           >
             Tenant Email
           </label>
-          <Inputs placeholder="Tenant Email" type="text" name="email" />
+          <Inputs
+            errMsg={errors.tenantEmail}
+            onChange={handleChange("tenantEmail")}
+            onBlur={handleBlur("tenantEmail")}
+            value={values.tenantEmail}
+            err={!!errors.tenantEmail && touched.tenantEmail}
+            placeholder="Tenant Email"
+            type="text"
+            name="tenantEmail"
+          />
         </div>
         <div className="mt-4 flex flex-col">
           <label
@@ -45,25 +96,16 @@ export const AddTenantToUnit = ({ setOpenAddTenantModal }: props) => {
             Move In Date
           </label>
           <div className="relative w-full">
-            <div className="flex justify-between items-center w-full border-0 outline-none bg-lighterGrey h-[50px] rounded-[8px] pl-[1.5rem] text-textBlack2 text-[14px] ">
-              <div className="flex-grow">
-                <DatePicker
-                  className="bg-lighterGrey w-full border-0 outline-none"
-                  placeholderText="Select a date"
-                  selected={startDate}
-                  onChange={(date) => date && setStartDate(date)}
-                  dateFormat="MM-dd-yyyy"
-                  open={isOpen}
-                  onClickOutside={() => setIsOpen(false)}
-                />
-              </div>
-              <div
-                onClick={() => setIsOpen(!open)}
-                className="pr-4 cursor-pointer"
-              >
-                <FaRegCalendarAlt />
-              </div>
-            </div>
+            <Inputs
+              style={{ paddingRight: "1rem" }}
+              errMsg={errors.moveInDate}
+              onChange={handleChange("moveInDate")}
+              onBlur={handleBlur("moveInDate")}
+              err={!!errors.moveInDate && touched.moveInDate}
+              placeholder="Tenant Email"
+              type="date"
+              name="moveInDate"
+            />
           </div>
         </div>
         <div className="mt-4 flex flex-col">
@@ -73,25 +115,16 @@ export const AddTenantToUnit = ({ setOpenAddTenantModal }: props) => {
             Last Payment
           </label>
           <div className="relative w-full">
-            <div className="flex justify-between items-center w-full border-0 outline-none bg-lighterGrey h-[50px] rounded-[8px] pl-[1.5rem] text-textBlack2 text-[14px] ">
-              <div className="flex-grow">
-                <DatePicker
-                  className="bg-lighterGrey w-full border-0 outline-none"
-                  placeholderText="Select a date"
-                  selected={startDate}
-                  onChange={(date) => date && setStartDate(date)}
-                  dateFormat="MM-dd-yyyy"
-                  open={open}
-                  onClickOutside={() => setOpen(false)}
-                />
-              </div>
-              <div
-                onClick={() => setOpen(!open)}
-                className="pr-4 cursor-pointer"
-              >
-                <FaRegCalendarAlt />
-              </div>
-            </div>
+            <Inputs
+              style={{ paddingRight: "1rem" }}
+              errMsg={errors.lastPaymentDate}
+              onChange={handleChange("lastPaymentDate")}
+              onBlur={handleBlur("lastPaymentDate")}
+              err={!!errors.lastPaymentDate && touched.lastPaymentDate}
+              placeholder="Tenant Email"
+              type="date"
+              name="lastPaymentDate"
+            />
           </div>
         </div>
         <div className="mt-4">
@@ -100,15 +133,22 @@ export const AddTenantToUnit = ({ setOpenAddTenantModal }: props) => {
           >
             Duration (months)
           </label>
-          <Inputs type="number" name="duration" placeholder="Duration" />
+          <div className="w-[90%] mx-auto">
+            <Slider
+              onChange={(value) => setFieldValue("tenantDuration", String(value))}
+              min={6}
+              max={24}
+              marks={{ 6: "6 months", 12: "12 months", 24: "24 months" }}
+              step={3}
+            />
+          </div>
         </div>
-        <div className="mt-8">
+        <div className="mt-12">
           <Button
             title="Add Tenant"
             variant="submit"
             onClick={() => {
-              notify();
-              setOpenAddTenantModal(false);
+              handleSubmit();
             }}
           />
         </div>

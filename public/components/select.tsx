@@ -49,6 +49,10 @@ export const StatusSelect: React.FC<Props> = ({
               ? "rgba(200, 200, 201, 0.13)"
               : "rgba(200, 200, 201, 0.13)",
           }),
+          option: (baseStyles, state) => ({
+            ...baseStyles,
+            color: state.isSelected ? "#000000" : "#000000",
+          }),
         }}
         placeholder={placeholder}
       />

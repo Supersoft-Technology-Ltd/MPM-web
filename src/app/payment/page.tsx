@@ -50,10 +50,10 @@ const Payment = () => {
           Payments
         </h5>
       </div>
-      <div className="flex flex-wrap gap-[2rem] w-[100%] mt-4">
+      <div className="lg:flex lg:flex-row md:flex-row lg:gap-[1rem] gap-[2rem] md:gap-[1rem] lg:w-[80%] w-[100%] mt-4">
         {PaymentCards.map((elem) => (
           <div
-            className="flex justify-center w-[22%] px-2 h-[120px] cursor-pointer items-center bg-white flex-wrap rounded-[12px] shadow-th"
+            className="flex justify-center mt-4 lg:mt-0 md:mt-0 lg:w-[30%] md:w-[40%] md:px-4 md:h-[100px] h-[120px] mx-auto lg:px-2 lg:h-[120px] cursor-pointer items-center bg-white flex-wrap rounded-[12px] shadow-th"
             onClick={() => handleCardClick(elem.action)}
           >
             <Image
@@ -83,10 +83,9 @@ const Payment = () => {
          subText="Rent Recipient Property"
          buttonTitle="Next"
          setModalIsOpen={setAction}
-         arrList={rentDetails.map((elem) => ({
-           label: elem.name,
-           value: elem.value,
-         }))}
+           label=''
+           value=''
+      
        />
        }
        </>

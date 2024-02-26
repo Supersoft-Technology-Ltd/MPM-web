@@ -31,3 +31,8 @@ export const signUpValidationSchema = Yup.object().shape({
   //     return this.parent.password === value;
   //   }),
 });
+
+export const signInValidationSchema = Yup.object().shape({
+  email: Yup.string().email().required("Email is required"),
+  password: Yup.string().required("Password is required")
+})
