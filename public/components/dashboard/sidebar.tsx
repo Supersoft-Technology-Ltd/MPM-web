@@ -30,7 +30,7 @@ const options = [
     title: "More",
     icon: <AiOutlineAppstore />,
     id: 4,
-    page: "",
+    page: "/more",
   },
 ];
 const Sidebar = () => {

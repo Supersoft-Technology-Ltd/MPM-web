@@ -3,8 +3,9 @@ import moment from "moment"
 export const formatTransaction = (transaction: Array<any>): Array<any> => {
     let array: any = []
     const sorted = transaction?.map(element => {
-        // const parsed = moment(`${element.transactionYear} ${element.transactionMonth}, ${element.transactionYear}`, "DD MMM, YYYY")
-        const parsed = moment(element.date, "DD-MMM-YYYY");
+        const parsed = moment(`${element.transactionYear} ${element.transactionMonth}, ${element.transactionYear}`, "DD MMM, YYYY")
+        // const dates = ``
+        // const parsed = moment(element.date, "DD-MMM-YYYY");
         return {
             date: parsed.format('MMM DD YYYY'),
             dayOfMonth: parsed.format("DD"),

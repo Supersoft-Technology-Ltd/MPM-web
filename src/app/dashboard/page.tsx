@@ -9,18 +9,36 @@ import {
   TenancyBox,
 } from "../../../public/components/tenancy-card";
 import { CgPlayListAdd } from "react-icons/cg";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InviteOthers } from "../../../public/components/dashboard/invite-others";
 import { AddProperty } from "../../../public/components/modal/add-property";
 import { useMediaQuery } from "../../../public/hooks/usemediaquery";
 import { MobileCards } from "../../../public/components/dashboard/mobile-cards";
+import { useAppSelector, useAppThunkDispatch } from "@/redux/store";
+import { useSelectCurrentUser } from "@/redux/reducers/auth";
+import {
+  getAllProperties,
+  getTenancyDetails,
+} from "@/redux/reducers/properties/thunk-action";
+import { formatCurrency } from "../../../public/hooks/formatNumber";
 
 const Dashboard = () => {
   const [openInviteModal, setOpenInviteModal] = useState(false);
   const [openAddpropertyModal, setOpenAddPropertyModal] = useState(false);
   const [openPropertyList, setOpenPropertyList] = useState(false);
   const matches = useMediaQuery("(min-width: 500px)");
-
+  const user = useAppSelector(useSelectCurrentUser);
+  const dispatch = useAppThunkDispatch();
+  const { allTenancyDetails, allProperties } = useAppSelector(
+    ({ propertyReducer }) => propertyReducer
+  );
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(getTenancyDetails(user.id));
+      dispatch(getAllProperties(user.id));
+    }
+  }, [user]);
+  console.log(allProperties, "allprops");
   return (
     <DashboardLayout>
       {openInviteModal && (
@@ -152,12 +170,18 @@ const Dashboard = () => {
           </div>
           <div className=" lg:flex-row flex flex-wrap lg:gap-[1%] gap-[3%] sm:flex-row md:flex-row md:gap-[3%] gap-y-[1rem] md:gap-y-[1rem] md:flex-wrap lg:flex-nowrap">
             <div className="lg:w-[23%] w-[45%] md:w-[40%]">
-              <TenancyCard />
+              <TenancyCard
+                title="Tenancy Location"
+                location={
+                  allTenancyDetails[0]?.property_details.propertyLocation ||
+                  "nil"
+                }
+              />
             </div>
             <div className="lg:w-[15%] w-[45%] md:w-[25%]">
               <TenancyBox
                 name="Active Tenancy"
-                subtext="0"
+                subtext={allTenancyDetails?.length || 0}
                 add={
                   <div className="flex mt-4 items-center">
                     <CgPlayListAdd className="text-address text-[12px]" />
@@ -171,22 +195,66 @@ const Dashboard = () => {
               />
             </div>
             <div className="lg:w-[15%] w-[45%] md:w-[25%]">
-              <TenancyBox name="Next Rent Due Date" subtext="DD/MM/YYYY" />
+              <TenancyBox
+                name="Next Rent Due Date"
+                subtext={
+                  allTenancyDetails[0]?.tenancy.nextDueDate || "DD/MM/YYYY"
+                }
+              />
             </div>
             <div className="lg:w-[15%] w-[45%] md:w-[40%]">
-              <TenancyBox name="Tenancy Duration" subtext="12 months" />
+              <TenancyBox
+                name="Tenancy Duration"
+                subtext={
+                  allTenancyDetails[0]?.tenancy.tenantDuration || "0 months"
+                }
+              />
             </div>
             <div className="lg:w-[15%] w-[45%] md:w-[25%]">
-              <TenancyBox name="Next Rent Amount" subtext="₦ 0.00" />
+              <TenancyBox
+                name="Next Rent Amount"
+                subtext={`₦${formatCurrency(
+                  allTenancyDetails[0]?.unit?.unitRent || 0.0
+                )}`}
+              />
             </div>
             <div className="lg:w-[15%] w-[45%] md:w-[25%]">
-              <TenancyBox name="Landlord’s Name" subtext="Nil" />
+              <TenancyBox
+                name="Landlord’s Name"
+                subtext={`${allTenancyDetails[0]?.landlord_detail.firstName} 
+                ${allTenancyDetails[0]?.landlord_detail.lastName}`}
+              />
             </div>
           </div>
         </div>
       ) : (
         <MobileCards setOpenAddPropertyModal={setOpenAddPropertyModal} />
       )}
+      <div className="w-full lg:h-[140px] h-[350px] md:h-[270px] md:py-6 rounded-[1rem] px-4 mt-6 shadow-sm bg-[#FFF] flex flex-col justify-center">
+        {allProperties.length ? (
+          <>
+            <p
+              className={`${Lora.className} font-light text-textBlack2 text-[15px]`}
+            >
+              {" "}
+              Properties
+            </p>
+            <div className=" flex-col lg:flex-row lg:flex lg:gap-[2%]">
+              {allProperties.slice(0, 2).map((elem: any) => (
+                <div className="lg:w-[45%] lg: mt-0 mt-4 lg:max-w-[40%] w-[90%] md:w-[40%]">
+                  <TenancyCard
+                    title={elem?.propertyName}
+                    location={elem.propertyLocation}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
+        ) : (
+          <p>No properties</p>
+        )}
+        <p>View all</p>
+      </div>
       {openAddpropertyModal && (
         <AddProperty
           setOpenPropertyList={setOpenPropertyList}

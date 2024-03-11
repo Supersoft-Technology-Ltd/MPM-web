@@ -1,16 +1,33 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Cards } from "../../../../public/components/card";
 import { DashboardLayout } from "../../../../public/components/dashboard/layout";
 import { Transaction } from "../../../../public/components/transactions";
 import { Data } from "../../../../public/components/transactions/data";
 import { TransactionTable } from "../../../../public/components/transactions/table";
 import { Inter, Lora } from "../../../../public/fonts";
+import { useAppSelector, useAppThunkDispatch } from "@/redux/store";
+import { useSelectCurrentUser } from "@/redux/reducers/auth";
+import { getFinancials } from "@/redux/reducers/transactions/thunk-action";
+import { formatCurrency } from "../../../../public/hooks/formatNumber";
 
 const YourFinancials = () => {
   const [openTransactionModal, setOpenTransactionModal] = useState(false);
   const [openReceipt, setOpenReceipt] = useState(false);
+  const { allFinancials } = useAppSelector(
+    ({ transactionReducer }) => transactionReducer
+  );
 
+  const dispatch = useAppThunkDispatch();
+
+  const user = useAppSelector(useSelectCurrentUser);
+
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(getFinancials(user.id));
+    }
+  }, [user]);
+  console.log(allFinancials, "all");
   return (
     <div>
       <DashboardLayout>
@@ -47,7 +64,7 @@ const YourFinancials = () => {
                 <h5
                   className={`${Lora.className} font-bold text-white text-[25px]`}
                 >
-                  ₦ ******
+                  ₦ {formatCurrency(allFinancials?.walletBalance || 0)}
                 </h5>
               </div>
               <div className="flex justify-between items-center">
@@ -56,12 +73,30 @@ const YourFinancials = () => {
                 >
                   MPM Account ID
                 </p>
-                <p className="text-white">**** 4098</p>
+                <p className="text-white">{allFinancials.userId}</p>
               </div>
             </div>
           </div>
           <div className="w-[68%]">
-            <Cards />
+            <Cards
+              data={[
+                {
+                  name: "Total Inflow",
+                  amount: `₦${formatCurrency(allFinancials.totalInflow || 0)}`,
+                  img: "/assets/inflow icon.png",
+                },
+                {
+                  name: "Total Outflow",
+                  amount: `₦${formatCurrency(allFinancials.totalOutflow || 0)}`,
+                  img: "/assets/outflow icon.png",
+                },
+                {
+                  name: "Transactions Count",
+                  amount: "56",
+                  img: "/assets/counter.png",
+                },
+              ]}
+            />
           </div>
         </div>
         <div className="flex justify-end mt-[-3rem] items-center">
@@ -84,7 +119,7 @@ const YourFinancials = () => {
               setOpenTransactionModal={setOpenTransactionModal}
               setOpenReceipt={setOpenReceipt}
               height="40px"
-              data={Data}
+              data={[]}
             />
           </div>
           <div className="w-[49%]">

@@ -6,6 +6,10 @@ import financials from "../../assets/financials.png";
 import history from "../../assets/transaction-history.png";
 import properties from '../../assets/town.png'
 import tenancy from '../../assets/tenancy.svg'
+import settings from '../../assets/gear.png'
+import help from '../../assets/question.png'
+import faq from '../../assets/faq.png'
+import terms from '../../assets/agreement.png'
 
 export const PaymentCards = [
   {
@@ -84,3 +88,30 @@ export const PortfolioCards = [
 //     action: "Transaction history",
 //   },
 ];
+export const more = [
+  {
+    id: 1,
+    img: settings,
+    text: "Settings",
+    action: "settings",
+  },
+  {
+    id: 2,
+    img: faq,
+    text: "FAQs",
+    action: "faqs",
+  },
+  {
+    id: 3,
+    img: help,
+    text: "Help and Support",
+    action: "help and support",
+  },
+  // {
+  //   id: 4,
+  //   img: terms,
+  //   text: "Terms and Conditions",
+  //   action: "terms and conditions",
+  // },
+  
+]

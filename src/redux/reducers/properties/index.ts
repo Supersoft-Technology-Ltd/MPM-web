@@ -1,12 +1,19 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AddProperties, getAllProperties, editProperty, getPropertyDetails } from "./thunk-action";
-import { Property, propertyDetails } from "./interface";
+import {
+  AddProperties,
+  getAllProperties,
+  editProperty,
+  getPropertyDetails,
+  getTenancyDetails,
+} from "./thunk-action";
+import { Property, TenancyInfo, propertyDetails } from "./interface";
 
 const initialState: any = {
   allProperties: {} as Property[],
   loading: "idle",
   error: null,
   onePropertyDetails: {} as propertyDetails,
+  allTenancyDetails: {} as TenancyInfo[],
 };
 
 const propertySlice = createSlice({
@@ -64,6 +71,21 @@ const propertySlice = createSlice({
       };
     });
     builder.addCase(getPropertyDetails.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+    //getTenancyDetails
+    builder.addCase(getTenancyDetails.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(getTenancyDetails.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+        allTenancyDetails: action.payload.message,
+      };
+    });
+    builder.addCase(getTenancyDetails.rejected, (state, action) => {
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });

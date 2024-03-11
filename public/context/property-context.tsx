@@ -7,7 +7,12 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import { Property } from "@/redux/reducers/properties/interface";
+import {
+  Property,
+  Tenancy,
+  TenancyInfo,
+  oneTenancyDetails,
+} from "@/redux/reducers/properties/interface";
 import { UnitData } from "@/redux/reducers/unit/interface";
 
 type propertytype = {
@@ -15,6 +20,8 @@ type propertytype = {
   setProperty: Dispatch<SetStateAction<Property>>;
   oneUnit: UnitData;
   setOneUnit: Dispatch<SetStateAction<UnitData>>;
+  oneTenancy: oneTenancyDetails;
+  setOneTenancy: Dispatch<SetStateAction<oneTenancyDetails>>;
 };
 const initialPropertyState: Property = {
   id: "",
@@ -45,23 +52,37 @@ const initialUnitState: UnitData = {
     id: 1,
   },
 };
+const initialTenancyState: oneTenancyDetails = {
+  landlordName: "",
+  nextRentAmount: 0,
+  tenancyLocation: "",
+  nextRentDate: "",
+  tenancyDuration: 0,
+};
 const PropertyContext = createContext<propertytype>({
   property: initialPropertyState,
   setProperty: () => null,
   oneUnit: initialUnitState,
   setOneUnit: () => null,
+  oneTenancy: initialTenancyState,
+  setOneTenancy: () => null,
 });
 
 export const PropertyProvider = ({ children }: { children: ReactNode }) => {
-  const [property, setProperty,] = useState<Property>(initialPropertyState);
-  const [  oneUnit, setOneUnit] = useState<UnitData>(initialUnitState)
+  const [property, setProperty] = useState<Property>(initialPropertyState);
+  const [oneUnit, setOneUnit] = useState<UnitData>(initialUnitState);
+  const [oneTenancy, setOneTenancy] =
+    useState<oneTenancyDetails>(initialTenancyState);
   const value = useMemo(
     () => ({
       property,
       setProperty,
-      oneUnit, setOneUnit
+      oneUnit,
+      setOneUnit,
+      oneTenancy,
+      setOneTenancy,
     }),
-    [property, setProperty, oneUnit, setOneUnit]
+    [property, setProperty, oneUnit, setOneUnit, oneTenancy, setOneTenancy]
   );
 
   return (

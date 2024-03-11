@@ -11,19 +11,64 @@ import { List } from "../../../public/components/modal/list";
 import { AddTenantToUnit } from "../../../public/components/modal/add-tenant-unit";
 import { AddUnit } from "../../../public/components/modal/add-unit";
 import { ModalLayout } from "../../../public/components/modal-layout";
-import { getAllProperties } from "@/redux/reducers/properties/thunk-action";
+import {
+  getAllProperties,
+  getTenancyDetails,
+} from "@/redux/reducers/properties/thunk-action";
 import { useAppThunkDispatch, useAppSelector } from "@/redux/store";
 import { useSelectCurrentUser } from "@/redux/reducers/auth";
 import { AddProperty } from "../../../public/components/modal/add-property";
 import { useProperties } from "../../../public/context/property-context";
-import { Property } from "@/redux/reducers/properties/interface";
+import {
+  LandlordDetail,
+  Property,
+  PropertyMessage,
+  Tenancy,
+  Unit,
+} from "@/redux/reducers/properties/interface";
 import { getPropertyUnits } from "@/redux/reducers/unit/thunk-action";
 import { useMediaQuery } from "../../../public/hooks/usemediaquery";
+import { Rental } from "../../../public/components/modal/rental";
+import { formatCurrency } from "../../../public/hooks/formatNumber";
 
 const Portfolio = () => {
   const [action, setAction] = useState<
     "properties" | "tenancy" | "rental" | ""
   >("");
+  interface SelectedItem {
+    property_details: Pick<
+      PropertyMessage,
+      "propertyLocation" | "propertyName"
+    >;
+    unit: Pick<Unit, "unitRent">;
+    landlord_detail: Pick<
+      LandlordDetail,
+      "firstName" | "lastName" | "phoneNumber"
+    >;
+    tenancy: Pick<
+      Tenancy,
+      "nextDueDate" | "lastPaymentDate" | "tenantDuration"
+    >;
+  }
+  const [selected, setSelected] = useState<SelectedItem>({
+    property_details: {
+      propertyLocation: "...",
+      propertyName: "...",
+    },
+    unit: {
+      unitRent: 0,
+    },
+    landlord_detail: {
+      firstName: "...",
+      lastName: "",
+      phoneNumber: "",
+    },
+    tenancy: {
+      nextDueDate: "...",
+      lastPaymentDate: "",
+      tenantDuration: "",
+    },
+  });
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [openList, setOpenList] = useState(false);
   const [openPropertyList, setOpenPropertyList] = useState(false);
@@ -32,6 +77,8 @@ const Portfolio = () => {
   const [addUnitModal, setAddUnitModal] = useState(false);
   const [openTenancy, setOpenTenancy] = useState(false);
   const [openProperty, setOpenProperty] = useState(false);
+  const [openRentals, setOpenRentals] = useState(false);
+  const [openRentalDetails, setOpenRentalDetails] = useState(false);
   const ref = useRef<any>(null);
   const [openAddPropertyModal, setOpenAddPropertyModal] = useState(false);
   useState<boolean>(false);
@@ -39,17 +86,19 @@ const Portfolio = () => {
   const matches = useMediaQuery("(min-width: 767px)");
   const dispatch = useAppThunkDispatch();
 
-  const { allProperties } = useAppSelector(
+  const { allProperties, allRentals, allTenancyDetails } = useAppSelector(
     ({ propertyReducer }) => propertyReducer
   );
   const { allUnits } = useAppSelector(({ unitReducer }) => unitReducer);
   const { property, setProperty, oneUnit, setOneUnit } = useProperties();
+
   const handleOnClick = (selectedAction: any) => {
     setAction(selectedAction);
     if (action === "properties") {
       setOpenPropertyList(true);
     }
     if (action === "rental") {
+      setOpenRentals(true);
     }
     if (action === "tenancy") {
       setOpenTenancy(true);
@@ -57,6 +106,32 @@ const Portfolio = () => {
   };
   const user = useAppSelector(useSelectCurrentUser);
 
+  const handleSelect = (id: string) => {
+    const data = (allTenancyDetails.find(
+      (ele: any) => ele?.property_details?.id === id
+    ) || {}) as SelectedItem;
+    setSelected({
+      property_details: {
+        propertyLocation: data.property_details.propertyLocation,
+        propertyName: data.property_details.propertyName,
+      },
+      landlord_detail: {
+        lastName: data.landlord_detail.lastName,
+        firstName: data.landlord_detail.firstName,
+        phoneNumber: data.landlord_detail.phoneNumber,
+      },
+      tenancy: {
+        lastPaymentDate: data.tenancy.lastPaymentDate,
+        nextDueDate: data.tenancy.nextDueDate,
+        tenantDuration: data.tenancy.tenantDuration,
+      },
+      unit: {
+        unitRent: data.unit.unitRent,
+      },
+    });
+    console.log(id, "pp");
+  };
+  console.log(allTenancyDetails, "allll");
   useEffect(() => {
     if (user?.id) {
       dispatch(getAllProperties(user.id));
@@ -68,7 +143,16 @@ const Portfolio = () => {
       dispatch(getPropertyUnits(property.id));
     }
   }, [property]);
-
+  useEffect(() => {
+    if (user?.id) {
+      dispatch(getTenancyDetails(user.id)).then((res) => {
+        if (res.meta.requestStatus === "fulfilled") {
+          const data = res.payload;
+          console.log(data, "data");
+        }
+      });
+    }
+  }, [user]);
   return (
     <DashboardLayout>
       <div className={`${Lora.className} flex items-center justify-start`}>
@@ -201,9 +285,7 @@ const Portfolio = () => {
               onClear={() => ref.current?.handleClearForm()}
               propertyId={""}
               buttonTitle={
-                oneUnit.occupyingStatus
-                  ? "Remove Tenant"
-                  : "Add Tenant"
+                oneUnit.occupyingStatus ? "Remove Tenant" : "Add Tenant"
               }
               record={false}
               setOpenAddTenantModal={setOpenAddTenantModal}
@@ -219,6 +301,57 @@ const Portfolio = () => {
               setAddUnitModal={setAddUnitModal}
               setModalIsOpen={setModalIsOpen}
             />
+          )}
+        </>
+      )}
+      {action === "rental" && (
+        <>
+          {openRentals && (
+            <ModalContainer
+              goBack={true}
+              title="Rentals"
+              width={matches ? "35%" : "80%"}
+              handleModalClose={() => setOpenRentals(false)}
+            >
+              <List
+                onClick={(elem) => {
+                  setOpenRentalDetails(true);
+                  setOpenRentals(false);
+                  handleSelect(elem?.property_details?.id);
+                  console.log(elem, "elem");
+                }}
+                arrDetails={allTenancyDetails?.map((elem: any) => ({
+                  label: elem.unit.unitName,
+                  value: elem.property_details?.propertyLocation,
+                  ...elem,
+                }))}
+                setOpenUnitModal={setOpenUnitModal}
+                setOpenList={setOpenList}
+                setModalIsOpen={setModalIsOpen}
+                setOpenPropertyList={setOpenPropertyList}
+                button={true}
+                setOpenAddPropertyModal={setOpenAddPropertyModal}
+              />
+            </ModalContainer>
+          )}
+          {openRentalDetails && (
+            <ModalContainer
+              goBack={true}
+              title="Rental Details"
+              width={matches ? "35%" : "80%"}
+              handleModalClose={() => setOpenRentalDetails(false)}
+            >
+              <Rental
+                landLordNumber={selected.landlord_detail.phoneNumber}
+                landlordName={`${selected.landlord_detail.firstName} ${selected.landlord_detail.lastName}`}
+                amount={formatCurrency(selected.unit.unitRent || 0)}
+                lastRent={selected.tenancy.lastPaymentDate}
+                nextRent={selected.tenancy.nextDueDate}
+                duration={selected.tenancy.tenantDuration}
+                propertyLocation={selected.property_details.propertyLocation}
+                propertyName={selected.property_details.propertyName}
+              />
+            </ModalContainer>
           )}
         </>
       )}

@@ -4,17 +4,33 @@ import { Button } from "../button";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { ImDownload } from "react-icons/im";
 import React, { SetStateAction } from "react";
+import { date } from "yup";
+import { currencyToString, formatCurrency } from "../../hooks/formatNumber";
 
 type props = {
-  setOpenReceipt: React.Dispatch<SetStateAction<any>>
+  setOpenReceipt: React.Dispatch<SetStateAction<any>>;
+  setOpenModal: React.Dispatch<SetStateAction<any>>;
+  name: string;
+  transactionID: string;
+  referenceID: string;
+  amount: string;
+  dates: string;
 };
-export const SuccessfulPayment = ({setOpenReceipt}: props) => {
+export const SuccessfulPayment = ({
+  setOpenReceipt,
+  setOpenModal,
+  name,
+  transactionID,
+  referenceID,
+  amount,
+  dates,
+}: props) => {
   return (
     <SuccessModal width="27%">
       <h1
         className={`${Lora.className} text-[25px] text-textBlack2 font-normal `}
       >
-        Bill Payment Successful
+        Payment Successful
       </h1>
       <p
         className={`${Raleway.className} font-light text-[14px] px-[3rem] text-center text-textBlack2 mt-4`}
@@ -26,43 +42,35 @@ export const SuccessfulPayment = ({setOpenReceipt}: props) => {
         <p
           className={`${Inter.className} font-normal text-[14px] text-socialText`}
         >
-          IKEDC
+          {name}
         </p>
         <h6
           className={`${Inter.className} font-normal text-[19px] text-textBlack`}
         >
-          ₦10,000.00
+          ₦ {formatCurrency(Number(amount))}
         </h6>
       </div>
       <div className="border-b border-border w-[70%] mx-auto" />
       <div className={`${Raleway.className} w-[70%] mx-auto`}>
-        <div className="flex justify-between items-center py-2">
-          <p className="font-light text-modalBg text-[13px]">Source:</p>
-          <p className="text-success_text text-[12px] font-semibold">
-            Card **** **** **** 7786
-          </p>
-        </div>
         <div className="border-b border-border w-[100%] mx-auto" />
 
         <div className="flex justify-between items-center py-2">
           <p className="font-light text-modalBg text-[13px]">Transaction ID:</p>
           <p className="text-success_text text-[12px] font-semibold">
-            TXN8890452GT02
+            {transactionID}
           </p>
         </div>
         <div className="border-b border-border w-[100%] mx-auto" />
         <div className="flex justify-between items-center py-2">
           <p className="font-light text-modalBg text-[13px]">Reference:</p>
           <p className="text-success_text text-[12px] font-semibold">
-            MPM/AIRTIME/6446
+            {referenceID}
           </p>
         </div>
         <div className="border-b border-border w-[100%] mx-auto" />
         <div className="flex justify-between items-center py-2">
           <p className="font-light text-modalBg text-[13px]">Date / Time:</p>
-          <p className="text-success_text text-[12px] font-semibold">
-            23 / 05 / 2023 : 08:46 am
-          </p>
+          <p className="text-success_text text-[12px] font-semibold">{dates}</p>
         </div>
         <div className="border-b border-border w-[100%] mx-auto" />
         <div className="flex justify-between items-center py-2">
@@ -74,7 +82,14 @@ export const SuccessfulPayment = ({setOpenReceipt}: props) => {
         <div className="border-b border-border w-[100%] mx-auto" />
       </div>
       <div className="w-[70%] mx-auto mt-4">
-        <Button variant="submit" title="Finish" onClick={() => setOpenReceipt(false)}></Button>
+        <Button
+          variant="submit"
+          title="Finish"
+          onClick={() => {
+            setOpenReceipt(false)
+            setOpenModal(false)
+          }}
+        ></Button>
       </div>
     </SuccessModal>
   );
