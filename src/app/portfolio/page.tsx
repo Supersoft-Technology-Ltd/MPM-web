@@ -325,6 +325,8 @@ const Portfolio = () => {
         </>
       )}
       {action === "rental" && (
+
+        
         <>
           {openRentals && (
             <ModalContainer
