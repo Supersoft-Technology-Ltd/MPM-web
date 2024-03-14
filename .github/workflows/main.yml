@@ -30,7 +30,11 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /supersoft/mpm-web
-            git pull origin main
+            if [ ! -d ".git" ]; then
+              git clone https://github.com/your_username/your_repository.git .
+            else
+              git pull origin main
+            fi
             npm install
             npm run dev
             # Add any additional commands needed for deployment
