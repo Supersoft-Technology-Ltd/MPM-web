@@ -29,7 +29,7 @@ export const MobileCards = ({setOpenAddPropertyModal}: props) => {
         </div>
         <div className=" flex gap-[1rem] flex-col">
           <div className="w-[90%] mx-auto">
-            <TenancyCard />
+            <TenancyCard location="" title=""/>
           </div>
           <div className="w-[90%] mx-auto">
             <TenancyBox

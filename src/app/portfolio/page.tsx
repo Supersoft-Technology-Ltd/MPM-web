@@ -32,7 +32,6 @@ import { Rental } from "../../../public/components/modal/rental";
 import { formatCurrency } from "../../../public/hooks/formatNumber";
 
 const Portfolio = () => {
-  const addUnitRef = useRef<AddUnitRef>(null);
 
   const [action, setAction] = useState<
     "properties" | "tenancy" | "rental" | ""
@@ -52,6 +51,15 @@ const Portfolio = () => {
       "nextDueDate" | "lastPaymentDate" | "tenantDuration"
     >;
   }
+  const [paymentDetails, setPaymentDetails] = useState<{
+    unitRent: number;
+    propertyID: string;
+    propertyLocation: string;
+  }>({
+    propertyID: "",
+    propertyLocation: "",
+    unitRent: 0,
+  });
   const [selected, setSelected] = useState<SelectedItem>({
     property_details: {
       propertyLocation: "...",
@@ -134,23 +142,24 @@ const Portfolio = () => {
     console.log(id, "pp");
   };
   console.log(allTenancyDetails, "allll");
-  useEffect(() => {
-    loadProperties();
-  }, [user]);
+
   const loadProperties = () => {
     if (user?.id) {
       dispatch(getAllProperties(user.id));
     }
   };
   useEffect(() => {
-    loadUnits();
-  }, [property]);
+    loadProperties();
+  }, [user]);
 
   const loadUnits = () => {
     if (property.id) {
       dispatch(getPropertyUnits(property.id));
     }
   };
+  useEffect(() => {
+    loadUnits();
+  }, [property]);
   useEffect(() => {
     if (user?.id) {
       dispatch(getTenancyDetails(user.id)).then((res) => {
@@ -325,7 +334,7 @@ const Portfolio = () => {
               handleModalClose={() => setOpenRentals(false)}
             >
               <List
-                onClick={(elem) => {
+                onClick={(elem: any) => {
                   setOpenRentalDetails(true);
                   setOpenRentals(false);
                   handleSelect(elem?.property_details?.id);
@@ -370,6 +379,7 @@ const Portfolio = () => {
         <>
           {openTenancy && (
             <ModalLayout
+            setPaymentDetails={setPaymentDetails}
               buttonTitle="View Tenants"
               handleModalOpen={() => {
                 setOpenTenancy(false);

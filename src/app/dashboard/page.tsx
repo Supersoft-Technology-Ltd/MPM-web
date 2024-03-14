@@ -32,6 +32,14 @@ const Dashboard = () => {
   const { allTenancyDetails, allProperties } = useAppSelector(
     ({ propertyReducer }) => propertyReducer
   );
+  const loadProperties = () => {
+    if (user?.id) {
+      dispatch(getAllProperties(user.id));
+    }
+  };
+  useEffect(() => {
+    loadProperties();
+  }, [user]);
   useEffect(() => {
     if (user?.id) {
       dispatch(getTenancyDetails(user.id));
@@ -260,6 +268,7 @@ const Dashboard = () => {
       </div>
       {openAddpropertyModal && (
         <AddProperty
+        loadProperties={loadProperties}
           setOpenPropertyList={setOpenPropertyList}
           modalTitle="Add Property"
           setOpenAddPropertyModal={setOpenAddPropertyModal}

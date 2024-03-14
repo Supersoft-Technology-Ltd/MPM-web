@@ -136,7 +136,7 @@ const Payment = () => {
             setOpenTransactionModal={setOpenTransactionModal}
             width="10%"
             height="45px"
-            data={allTransactions}
+            data={allTransactions as any}
             menu={true}
           />
         </ModalContainer>
