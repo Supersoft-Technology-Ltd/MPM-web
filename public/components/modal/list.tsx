@@ -37,27 +37,34 @@ export const List = ({
   const { property, setProperty, oneUnit, setOneUnit } = useProperties();
   return (
     <div>
-      {arrDetails?.map((elem: any, id) => (
-        <div
-          key={id}
-          className="mt-4 flex cursor-pointer justify-between items-center"
-          onClick={() => onClick(elem)}
-        >
-          <div>
-            <h4
-              className={`${Lora.className} capitalize font-medium text-textBlack2 text-[14px]`}
+      {arrDetails.length ? (
+        <>
+          {" "}
+          {arrDetails?.map((elem: any, id) => (
+            <div
+              key={id}
+              className="mt-4 flex cursor-pointer justify-between items-center"
+              onClick={() => onClick(elem)}
             >
-              {elem.label}
-            </h4>
-            <p
-              className={`${Lora.className} font-light text-textBlack2 text-[12px]`}
-            >
-              {elem.value}
-            </p>
-          </div>
-          <MdOutlineArrowForwardIos />
-        </div>
-      ))}
+              <div>
+                <h4
+                  className={`${Lora.className} capitalize font-medium text-textBlack2 text-[14px]`}
+                >
+                  {elem.label}
+                </h4>
+                <p
+                  className={`${Lora.className} font-light text-textBlack2 text-[12px]`}
+                >
+                  {elem.value}
+                </p>
+              </div>
+              <MdOutlineArrowForwardIos />
+            </div>
+          ))}
+        </>
+      ) : (
+        <p>No {title}</p>
+      )}
       {button && (
         <div className="w-full mx-auto mt-8">
           <Button

@@ -42,18 +42,21 @@ export const ModalCardLayout: React.FC<props> = ({
     ({ transactionReducer }) => transactionReducer
   );
   const [selectedPayment, setSelectedPayment] = useState("");
+
   useEffect(() => {
     dispatch(getPaymentMthods());
   }, []);
+
   const [config, setConfig] = useState({
     reference: new Date().getTime().toString(),
     email: user?.email,
     amount: 0,
     publicKey:
-      process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY ??
-      "pk_test_7eb4814750548a9e1b389b111e574ff5559133b5",
+      process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY ?? ""
   });
+  
   const initializePayment = usePaystackPayment(config);
+  
   const { oneUnit } = useProperties();
 
   const options = allPaymentOptions.map(

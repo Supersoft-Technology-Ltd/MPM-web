@@ -9,6 +9,7 @@ import tenancy from '../../assets/tenancy.svg'
 import settings from '../../assets/gear.png'
 import help from '../../assets/question.png'
 import faq from '../../assets/faq.png'
+import subscription from '../../assets/subscription.png'
 import terms from '../../assets/agreement.png'
 
 export const PaymentCards = [
@@ -107,11 +108,12 @@ export const more = [
     text: "Help and Support",
     action: "help and support",
   },
-  // {
-  //   id: 4,
-  //   img: terms,
-  //   text: "Terms and Conditions",
-  //   action: "terms and conditions",
-  // },
+
+  {
+    id: 4,
+    img: subscription,
+    text: "Subscription",
+    action: "subscription",
+  },
   
 ]

@@ -1,7 +1,7 @@
 import { ImLocation2 } from "react-icons/im";
 import { Lora } from "../../fonts";
 import { Button } from "../button";
-import React, { SetStateAction, useEffect, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import { ModalContainer } from "../modal";
 import { useProperties } from "../../context/property-context";
 import { formatCurrency } from "../../hooks/formatNumber";
@@ -10,6 +10,8 @@ import { removeOneTenant } from "@/redux/reducers/unit/thunk-action";
 import { toast } from "react-toastify";
 import { getTenantInUnit } from "@/redux/reducers/unit/thunk-action";
 import { useMediaQuery } from "../../hooks/usemediaquery";
+import { useRouter } from "next/navigation";
+
 
 type propertyProps = {
   name?: string;
@@ -28,7 +30,12 @@ type propertyProps = {
   setOpenPropertyList: React.Dispatch<SetStateAction<any>>;
   setOpenAddTenantModal: React.Dispatch<SetStateAction<any>>;
   setAddUnitModal: React.Dispatch<SetStateAction<any>>;
-  buttonTitle: "Add Tenant" | "View Units" | "Remove Tenant" | "View Tenants";
+  buttonTitle:
+    | "Add Tenant"
+    | "View Units"
+    | "Remove Tenant"
+    | "View Tenants"
+    | "Add New Tenant";
   handleModalClose: () => void;
   modalTitle: "Property Details" | "Unit Details" | "View Tenants";
   onClear?: VoidFunction;
@@ -55,15 +62,17 @@ export const PropertyModal = ({
 }: propertyProps) => {
   const matches = useMediaQuery("(min-width: 600px)");
   const [isEditMode, setIsEditMode] = useState(false);
-  const { oneUnit, setOneUnit } = useProperties();
-  console.log(oneUnit, "one");
+  const { oneUnit, setOneUnit, property, setProperty } = useProperties();
+  const addUnitRef = useRef(null);
 
   const dispatch = useAppThunkDispatch();
   const { oneTenantDetails } = useAppSelector(({ unitReducer }) => unitReducer);
+  const router = useRouter();
 
   useEffect(() => {
     dispatch(getTenantInUnit(oneUnit.id));
   }, []);
+  console.log(property, "one");
 
   const removeTenant = async () => {
     try {
@@ -104,14 +113,14 @@ export const PropertyModal = ({
           <p
             className={`${Lora.className} capitalize font-medium text-darkText text-[15px]`}
           >
-            {modalTitle === "Property Details" ? title : oneUnit.unitName}
+            {modalTitle === "Property Details" ? title : property.propertyName}
           </p>
           <p
             className={`${Lora.className} font-light text-address text-[13px]`}
           >
             {modalTitle === "Property Details"
               ? value
-              : oneUnit.unitType.description}
+              : property.propertyLocation}
           </p>
         </div>
       </div>
@@ -148,6 +157,7 @@ export const PropertyModal = ({
                   handleModalClose();
                   setOpenPropertyList(false);
                   setAddUnitModal(true);
+                  router.push('/portfolio?action=edit')
                 }}
               >
                 <p
@@ -261,18 +271,19 @@ export const PropertyModal = ({
           )}
           {record && (
             <>
-            <p
-              onClick={() => {
-                setModalIsOpen(false);
-                setAddUnitModal(true);
-                onClear && onClear();
-              }}
-              className={`${Lora.className} 
+              <p
+                onClick={() => {
+                  setModalIsOpen(false);
+                  setAddUnitModal(true);
+                  onClear && onClear();
+                  router.push('/portfolio?action=add')
+                }}
+                className={`${Lora.className} 
               cursor-pointer underline text-colorPrimary font-light text-[13px]`}
-            >
-              {" "}
-              Add Units
-            </p>
+              >
+                {" "}
+                Add Units
+              </p>
             </>
           )}
         </>
@@ -288,7 +299,7 @@ export const PropertyModal = ({
               setOpenUnitModal(false);
               setOpenAddTenantModal(true);
             }
-            if (buttonTitle === "View Tenants") {
+            if (buttonTitle === "Add New Tenant") {
               setOpenProperty("");
               setOpenAddTenantModal(true);
             }

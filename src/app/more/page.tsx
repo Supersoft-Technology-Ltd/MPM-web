@@ -13,13 +13,15 @@ import { FaAngleRight } from "react-icons/fa6";
 import { Faq } from "../../../public/components/faq.modal";
 import { Settings } from "../../../public/components/settings-modal";
 import { Socials } from "../../../public/components/faq";
-import { Button } from "../../../public/components/button";
-import { SuccessModal } from "../../../public/components/modal/successmodal";
 import { Success } from "../../../public/components/modal/success";
+import { Profile } from "../../../public/components/dashboard/profile";
+import { Subscription } from "../../../public/components/subscription-modal";
+import { SuccessfulPayment } from "../../../public/components/payments/bill-successful";
+import moment from "moment";
 
 const More = () => {
   const [action, setAction] = useState<
-    "settings" | "faqs" | "help and support" | ""
+    "settings" | "faqs" | "help and support" | "subscription" | ""
   >("");
 
   const [selected, setSelected] = useState<string>("");
@@ -27,12 +29,21 @@ const More = () => {
   const [openFaqModal, setOpenFaqModal] = useState(false);
   const [openHelpModal, setOpenHelpModal] = useState(false);
   const [openSuccessModal, setOpenSuccessmodal] = useState(false);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openSubscription, setOpenSubscription] = useState(false);
+  const [receipt, setReceipt] = useState<any>({});
+  const [openReceipt, setOpenReceipt] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const handleSelected = (selectElem: string) => {
     setSelected(selectElem);
     if (selectElem === "Change Password") {
       setOpenTransactionModal(false);
       setOpenSelected(true);
+    }
+    if (selectElem === "Profile") {
+      setOpenTransactionModal(false);
+      setOpenProfile(true);
     }
   };
   const [openTransactionModal, setOpenTransactionModal] =
@@ -58,6 +69,9 @@ const More = () => {
     if (selectedAction === "help and support") {
       setOpenHelpModal(true);
     }
+    if (selectedAction === "subscription") {
+      setOpenSubscription(true);
+    }
   };
 
   const handleModalClose = () => {
@@ -72,7 +86,7 @@ const More = () => {
         </p>
         <h5 className="font-medium text-textBlack2 text-[16px]">More</h5>
       </div>
-      <div className="lg:flex lg:flex-row md:flex-row lg:gap-[1rem] gap-[2rem] md:gap-[1rem] lg:w-[85%] w-[100%] mt-4">
+      <div className="lg:flex lg:flex-row md:flex-row lg:gap-[1rem] gap-[2rem] md:gap-[1rem] lg:w-[95%] w-[100%] mt-4">
         {more.map((elem) => (
           <div
             className="flex justify-center mt-4 lg:mt-0 md:mt-0 lg:w-[30%] md:w-[40%] md:px-4 md:h-[100px] h-[120px] mx-auto lg:px-2 lg:h-[120px] cursor-pointer items-center bg-white flex-wrap rounded-[12px] shadow-th"
@@ -95,30 +109,34 @@ const More = () => {
           title="Settings"
         >
           <div>
-            {["Change Password", "Setup 2 FA", "Allow Notifications"].map(
-              (elem, id) => (
-                <div key={id}
-                  className="flex cursor-pointer pt-4 pb-4 justify-between items-center border-b border-[#00000029]"
-                  onClick={() => handleSelected(elem)}
+            {[
+              "Change Password",
+              "Profile",
+              "Setup 2 FA",
+              "Allow Notifications",
+            ].map((elem, id) => (
+              <div
+                key={id}
+                className="flex cursor-pointer pt-4 pb-4 justify-between items-center border-b border-[#00000029]"
+                onClick={() => handleSelected(elem)}
+              >
+                <p
+                  className={`${Lora.className} font-light text-address text-[14px]`}
                 >
-                  <p
-                    className={`${Lora.className} font-light text-address text-[14px]`}
-                  >
-                    {elem}
-                  </p>
-                  {id !== 2 ? (
-                    <FaAngleRight size={14} color="rgba(0, 11, 34, 1)" />
-                  ) : (
-                    <Switch
-                      checkedIcon={false}
-                      uncheckedIcon={false}
-                      onChange={handleChange}
-                      checked={checked}
-                    />
-                  )}
-                </div>
-              )
-            )}
+                  {elem}
+                </p>
+                {id !== 2 ? (
+                  <FaAngleRight size={14} color="rgba(0, 11, 34, 1)" />
+                ) : (
+                  <Switch
+                    checkedIcon={false}
+                    uncheckedIcon={false}
+                    onChange={handleChange}
+                    checked={checked}
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </ModalContainer>
       )}
@@ -141,8 +159,20 @@ const More = () => {
           text="You have successfully changed your password."
           subtext="Please keep your new password safe as you
            will require it regularly to access your MPM account."
-           
         />
+      )}
+      {selected === "Profile" && openProfile && (
+        <ModalContainer
+          width="35%"
+          title="Edit Profile"
+          goBack={true}
+          handleModalClose={() => {
+            setOpenProfile(false);
+            setOpenTransactionModal(true);
+          }}
+        >
+          <Profile />
+        </ModalContainer>
       )}
       {action === "faqs" && openFaqModal && (
         <ModalContainer
@@ -154,6 +184,20 @@ const More = () => {
           <div>
             <Faq />
           </div>
+        </ModalContainer>
+      )}
+      {action === "subscription" && openSubscription && (
+        <ModalContainer
+          width="35%"
+          goBack={true}
+          handleModalClose={() => setOpenSubscription(false)}
+          title="Choose Subscription Plan"
+        >
+          <Subscription
+            receipt={receipt}
+            setOpenReceipt={setOpenReceipt}
+            setReceipt={setReceipt}
+          />
         </ModalContainer>
       )}
       {action === "help and support" && openHelpModal && (
@@ -193,6 +237,7 @@ const More = () => {
           </div>
         </ModalContainer>
       )}
+     
     </DashboardLayout>
   );
 };

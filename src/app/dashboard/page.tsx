@@ -241,7 +241,7 @@ const Dashboard = () => {
             </p>
             <div className=" flex-col lg:flex-row lg:flex lg:gap-[2%]">
               {allProperties.slice(0, 2).map((elem: any) => (
-                <div className="lg:w-[45%] lg: mt-0 mt-4 lg:max-w-[40%] w-[90%] md:w-[40%]">
+                <div className="lg:w-[45%]  lg: mt-0 mt-4 lg:max-w-[40%] w-[90%] md:w-[40%]">
                   <TenancyCard
                     title={elem?.propertyName}
                     location={elem.propertyLocation}
@@ -251,9 +251,12 @@ const Dashboard = () => {
             </div>
           </>
         ) : (
-          <p>No properties</p>
+          <p
+            className={`${Lora.className} font-light text-textBlack2 text-[15px]`}
+          >
+            No properties
+          </p>
         )}
-        <p>View all</p>
       </div>
       {openAddpropertyModal && (
         <AddProperty

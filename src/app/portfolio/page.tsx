@@ -32,6 +32,8 @@ import { Rental } from "../../../public/components/modal/rental";
 import { formatCurrency } from "../../../public/hooks/formatNumber";
 
 const Portfolio = () => {
+  const addUnitRef = useRef<AddUnitRef>(null);
+
   const [action, setAction] = useState<
     "properties" | "tenancy" | "rental" | ""
   >("");
@@ -133,16 +135,22 @@ const Portfolio = () => {
   };
   console.log(allTenancyDetails, "allll");
   useEffect(() => {
+    loadProperties();
+  }, [user]);
+  const loadProperties = () => {
     if (user?.id) {
       dispatch(getAllProperties(user.id));
     }
-  }, [user]);
-
+  };
   useEffect(() => {
+    loadUnits();
+  }, [property]);
+
+  const loadUnits = () => {
     if (property.id) {
       dispatch(getPropertyUnits(property.id));
     }
-  }, [property]);
+  };
   useEffect(() => {
     if (user?.id) {
       dispatch(getTenancyDetails(user.id)).then((res) => {
@@ -214,6 +222,7 @@ const Portfolio = () => {
               modalTitle={
                 Object.keys(property).length ? "Edit Property" : "Add Property"
               }
+              loadProperties={loadProperties}
               setOpenAddPropertyModal={setOpenAddPropertyModal}
             />
           )}
@@ -250,6 +259,7 @@ const Portfolio = () => {
               handleModalClose={() => setOpenList(false)}
             >
               <List
+                title="Units"
                 arrDetails={allUnits?.map((elem: any) => ({
                   label: elem.unitName,
                   value: elem.unitType.description,
@@ -297,6 +307,7 @@ const Portfolio = () => {
           )}
           {addUnitModal && (
             <AddUnit
+              loadUnits={loadUnits}
               ref={ref}
               setAddUnitModal={setAddUnitModal}
               setModalIsOpen={setModalIsOpen}
@@ -386,7 +397,7 @@ const Portfolio = () => {
               openList={openList}
               label=""
               propertyId=""
-              buttonTitle="View Tenants"
+              buttonTitle="Add New Tenant"
               value="Property ID: MPM-240567"
               record={false}
               title="White House"

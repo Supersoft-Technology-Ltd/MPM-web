@@ -1,20 +1,24 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   InitiatePayment,
+  InitiateSubscriptionPayment,
   getAllTransactions,
   getFinancials,
   getPaymentMthods,
+  getSubscriptionPlans,
 } from "./thunk-action";
 import { MessageItem, ResponseData, UserWallet } from "./interface";
 
 const initialState: {
-  allPaymentOptions: Array<any>,
-  allTransactions: MessageItem[],
-  allFinancials: UserWallet
+  allPaymentOptions: Array<any>;
+  allTransactions: MessageItem[];
+  allFinancials: UserWallet;
+  allSubscriptionPlans: Array<any>;
 } = {
   allPaymentOptions: [],
   allTransactions: [],
   allFinancials: {} as UserWallet,
+  allSubscriptionPlans: [],
 };
 
 const transactionSlice = createSlice({
@@ -82,6 +86,37 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(InitiatePayment.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //getSubscriptionPlans
+    builder.addCase(getSubscriptionPlans.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(getSubscriptionPlans.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+        allSubscriptionPlans: action.payload.message,
+      };
+    });
+    builder.addCase(getSubscriptionPlans.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //InitiateSubscriptionPayment
+    builder.addCase(InitiateSubscriptionPayment.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(InitiateSubscriptionPayment.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+      };
+    });
+    builder.addCase(InitiateSubscriptionPayment.rejected, (state, action) => {
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });

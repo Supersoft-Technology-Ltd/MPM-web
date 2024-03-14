@@ -26,14 +26,14 @@ export const Settings = ({ setOpenSuccessModal }: props) => {
     values,
   } = useFormik({
     initialValues: {
-      old_password: "",
+      oldPassword: "",
       password: "",
       confirm_password: ""
     },
     validationSchema: changePasswordValidation,
     onSubmit: async (values) => {
       const payload = {
-        old_password: values.old_password,
+        oldPassword: values.oldPassword,
         password: values.password,
         userId: user?.id
       };
@@ -65,8 +65,8 @@ export const Settings = ({ setOpenSuccessModal }: props) => {
           type="password"
           onChange={handleChange("old_password")}
           onBlur={handleBlur("old_password")}
-          err={!!errors.old_password && touched.old_password}
-          errMsg={errors.old_password}
+          err={!!errors.oldPassword && touched.oldPassword}
+          errMsg={errors.oldPassword}
           style={{ marginTop: "8px" }}
           name="old_password"
           placeholder="Enter old password"

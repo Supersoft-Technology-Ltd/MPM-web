@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signUp, signIn, verifyOtp, updatePassword } from "./thunk-action";
+import { signUp, signIn, verifyOtp, updatePassword, updateProfile } from "./thunk-action";
 import { UserData } from "./interface";
 import { RootState } from "@/redux/store";
 
@@ -68,6 +68,19 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(updatePassword.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //updateProfile
+    builder.addCase(updateProfile.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+
+    builder.addCase(updateProfile.fulfilled, (state) => {
+      return { ...state, loading: "successful" };
+    });
+    builder.addCase(updateProfile.rejected, (state, action) => {
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });

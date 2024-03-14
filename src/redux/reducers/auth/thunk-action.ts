@@ -116,3 +116,31 @@ export const updatePassword = createAsyncThunk(
     }
   }
 );
+export const updateProfile = createAsyncThunk(
+  "auth/updateProfile",
+  async (data: object, thunkAPI) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/accounts/update-account`,
+        method: "put",
+        data,
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        const axiosError = error as AxiosError;
+        const responseData = axiosError.response?.data || {};
+        console.log("responseData", responseData);
+
+        const msg =
+          typeof responseData === "object" && "message" in responseData
+            ? responseData.message
+            : "An error occurred, please try again";
+        toast.error(msg as ToastContent);
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(String(error));
+      }
+    }
+  }
+);

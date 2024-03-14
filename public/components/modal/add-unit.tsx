@@ -23,18 +23,21 @@ import { Button } from "../button";
 import { IoCloseSharp } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { useMediaQuery } from "../../hooks/usemediaquery";
+import { useParams,useSearchParams } from "next/navigation";
 
 type props = {
   setModalIsOpen: React.Dispatch<SetStateAction<any>>;
   setAddUnitModal: React.Dispatch<SetStateAction<any>>;
+  loadUnits: () => void;
 };
 
 export const AddUnit = forwardRef(
-  ({ setAddUnitModal, setModalIsOpen }: props, ref) => {
+  ({ setAddUnitModal, setModalIsOpen, loadUnits }: props, ref) => {
     const { unitTypes = [] } = useAppSelector(({ unitReducer }) => unitReducer);
     const [units, setUnits] = useState<any>([]);
     const [show, setShow] = useState(false);
     const dispatch = useAppThunkDispatch();
+    const params = useSearchParams()
     const { property, setProperty, oneUnit } = useProperties();
     useEffect(() => {
       dispatch(getAllUnitTypes());
@@ -115,6 +118,7 @@ export const AddUnit = forwardRef(
       await dispatch(AddUnits(units)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           toast.success("Units added successfully");
+          loadUnits();
         } else {
           console.log(res?.payload?.data?.response);
         }
@@ -124,13 +128,13 @@ export const AddUnit = forwardRef(
     useImperativeHandle(ref, () => {
       return {
         handleClearForm() {
-          setValues({} as any);
+          // setValues({} as any);
         },
       };
     });
-    
+
     useEffect(() => {
-      if (Object.keys(oneUnit ?? {}).length) {
+      if (Object.keys(oneUnit ?? {}).length && params.get('action') === 'edit') {
         setFieldValue("unitName", oneUnit.unitName);
         setFieldValue("unitRent", oneUnit.unitRent);
         setFieldValue("unitServiceCharge", oneUnit.unitServiceCharge);
@@ -139,8 +143,19 @@ export const AddUnit = forwardRef(
         setFieldValue("unitCommissionCharge", oneUnit.unitCommissionCharge);
         setFieldValue("unitOtherCharges", oneUnit.unitOtherCharges);
         setFieldValue("unitTypeId", oneUnit.unitType.id);
+      }else if (params.get('action') === 'add'){
+        setValues({
+          unitName: "",
+          unitRent: "",
+          unitServiceCharge: "",
+          unitLegalCharge: "",
+          unitAgreementCharge: "",
+          unitCommissionCharge: "",
+          unitOtherCharges: "",
+          unitTypeId: "",
+        });
       }
-    }, [oneUnit]);
+    }, [oneUnit, params]);
 
     return (
       <ModalContainer
@@ -328,7 +343,7 @@ export const AddUnit = forwardRef(
             />
           </div>
 
-          {Object.keys(oneUnit ?? {}).length ? (
+          {Object.keys(oneUnit ?? {}).length && params.get('action') === 'edit' ? (
             <div className="mt-4">
               <Button variant="submit" title="Edit Unit" />
             </div>

@@ -11,6 +11,7 @@ import { StatusSelect } from "../select";
 import { AddPropertyValidationSchema } from "../../utils/schema/property";
 import { useFormik } from "formik";
 import { useAppThunkDispatch, useAppSelector } from "@/redux/store";
+import { getAllProperties } from "@/redux/reducers/properties/thunk-action";
 import {
   AddProperties,
   editProperty,
@@ -23,11 +24,13 @@ type props = {
   setOpenAddPropertyModal: React.Dispatch<SetStateAction<any>>;
   setOpenPropertyList: React.Dispatch<SetStateAction<any>>;
   modalTitle: "Add Property" | "Edit Property";
+  loadProperties: () => void;
 };
 export const AddProperty = ({
   setOpenAddPropertyModal,
   setOpenPropertyList,
   modalTitle,
+  loadProperties,
 }: props) => {
   const dispatch = useAppThunkDispatch();
   const user = useAppSelector(useSelectCurrentUser);
@@ -56,20 +59,29 @@ export const AddProperty = ({
         userId: user?.id,
         occupationalStatus: user?.roles,
       };
+      const payloads = {
+        propertyLocation: values.propertyLocation,
+        propertyState: values.propertyState,
+        propertyName: values.propertyName,
+        propertyId: property?.id,
+        occupationalStatus: user?.roles[0],
+      }
       console.log(payload, "payload");
       if (modalTitle === "Add Property") {
         await dispatch(AddProperties(payload)).then((res) => {
           if (res.meta.requestStatus === "fulfilled") {
             toast.success("Property added successfully");
+            loadProperties()
             setOpenAddPropertyModal(false);
           } else {
             console.log(res?.payload, "resp");
           }
         });
       } else {
-        await dispatch(editProperty(payload)).then((res) => {
+        await dispatch(editProperty(payloads)).then((res) => {
           if (res.meta.requestStatus === "fulfilled") {
             toast.success("Property edited successfully");
+            loadProperties()
             setOpenAddPropertyModal(false);
           } else {
             console.log(res?.payload, "resp");

@@ -4,14 +4,16 @@ type props = {
   title: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: "submit" | "cancel" | "outlined";
+  disabled?: boolean
 };
-export const Button: React.FC<props> = ({ title, onClick, variant }) => {
+export const Button: React.FC<props> = ({ title, onClick, variant, disabled = false }) => {
   return (
     <div>
       {variant === "submit" ? (
         <button
           className={`${AmericanTypewriter.className} w-full bg-[#0041A0] text-[12px] md:text-[14px] lg:text-[16px] text-[#FFF] rounded-[15px] h-[45px] md:h-[50px] lg:h-[55px]`}
           onClick={onClick}
+          disabled={disabled}
         >
           {title}
         </button>

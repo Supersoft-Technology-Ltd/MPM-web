@@ -97,3 +97,57 @@ export const getFinancials = createAsyncThunk(
     }
   }
 );
+export const getSubscriptionPlans = createAsyncThunk(
+  "transaction/getSubscriptionPlans",
+  async (data: void, thunkAPI) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/accounts/subscription/get-subscription-methods`,
+        method: "get",
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error);
+        const msg = error?.response || "An error occured, please try again";
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(error?.response as any);
+      }
+    }
+  }
+);
+export const InitiateSubscriptionPayment = createAsyncThunk(
+  "transaction/InitiateSubscriptionPayment",
+  async (
+    data: {
+      userId: string;
+      paymentMethod: string;
+      subscriptionMethodId: string | number;
+    },
+    thunkAPI
+  ) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/transactions/initiate-subscription-payment/${data?.userId}/${data?.subscriptionMethodId}/${data?.paymentMethod}`,
+        method: "GET",
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        const axiosError = error as AxiosError;
+        const responseData = axiosError.response?.data || {};
+        console.log("responseData", responseData);
+
+        const msg =
+          typeof responseData === "object" && "message" in responseData
+            ? responseData.message
+            : "An error occurred, please try again";
+        toast.error(msg as ToastContent);
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(String(error));
+      }
+    }
+  }
+);

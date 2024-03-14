@@ -10,6 +10,7 @@ import Input, {
 import countryNames from "react-phone-number-input/locale/en";
 import { useState } from "react";
 import { LiaAngleDownSolid } from "react-icons/lia";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 type InputProps = {
   type: string;
@@ -22,16 +23,27 @@ type InputProps = {
 export const Inputs: React.FC<
   InputHTMLAttributes<HTMLInputElement> & InputProps
 > = ({ type, placeholder, name, fontFamily, err, errMsg, ...props }) => {
+  const [open, setOpen] = useState(false);
+
+  const toggleVisibility = () => {
+    setOpen((prev) => !prev);
+  };
   return (
-    <>
+    <div className="relative">
       <input
-        className={`${Lora.className} font-light w-full border-0 outline-none bg-lighterGrey h-[50px] rounded-[8px] pl-[1.5rem] text-textBlack2 text-[14px]`}
-        type={type}
+        className={`${Lora.className} relative font-light w-full border-0 outline-none bg-lighterGrey h-[50px] rounded-[8px] pl-[1.5rem] text-textBlack2 text-[14px]`}
+        type={type === "password" ? (open ? "text" : "password") : type}
         name={name}
         placeholder={placeholder}
         style={{ fontFamily: fontFamily }}
         {...props}
       />
+      {type === "password" && (
+        <div className="absolute right-0 top-4 pr-4" onClick={toggleVisibility}>
+          {open ? <FiEye /> : <FiEyeOff />}
+        </div>
+      )}
+
       {err && (
         <p
           className={`${Lora.className} font-extralight text-colorRed text-[10px]`}
@@ -39,7 +51,7 @@ export const Inputs: React.FC<
           {errMsg}
         </p>
       )}
-    </>
+    </div>
   );
 };
 
@@ -79,7 +91,9 @@ export function NumberInput({
           international
           country="NG"
           value={value}
-          onChange={(value) =>  otherProps.onChange && otherProps.onChange(value)}
+          onChange={(value) =>
+            otherProps.onChange && otherProps.onChange(value)
+          }
           {...otherProps}
         />
       </div>

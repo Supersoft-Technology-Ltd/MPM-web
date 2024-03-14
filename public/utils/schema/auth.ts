@@ -38,7 +38,7 @@ export const signInValidationSchema = Yup.object().shape({
 });
 
 export const changePasswordValidation = Yup.object().shape({
-  old_password: Yup.string().required("Old password is required"),
+  oldPassword: Yup.string().required("Old password is required"),
   password: Yup.string()
     .required("New password is required")
     .test("specialChars", "Field must contain special characters", (value) => {
@@ -63,4 +63,12 @@ export const changePasswordValidation = Yup.object().shape({
     .test("passwords-match", "Passwords must match", function (value) {
       return this.parent.password === value;
     }),
+});
+
+export const updateProfileValidation = Yup.object().shape({
+  email: Yup.string().email().optional(),
+  firstName: Yup.string().optional(),
+  lastName: Yup.string().optional(),
+  aliasName: Yup.string().optional(),
+  phoneNumber: Yup.string().optional(),
 });
