@@ -30,9 +30,11 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             cd /supersoft/mpm-web
-            if [ ! -d ".git" ]; then
-              git clone https://github.com/your_username/your_repository.git .
+            if [ ! -d "MPM-web" ]; then
+              git clone https://github.com/Supersoft-Technology-Ltd/MPM-web.git
+              cd MPM-web
             else
+              cd MPM-web
               git pull origin main
             fi
             npm install
