@@ -31,7 +31,7 @@ jobs:
           script: |
             cd /supersoft/mpm-web
             if [ ! -d "MPM-web" ]; then
-              git clone https://github.com/Supersoft-Technology-Ltd/MPM-web
+              git clone https://github.com/Supersoft-Technology-Ltd/MPM-web.git
               cd MPM-web
             else
               cd MPM-web
