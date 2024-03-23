@@ -10,6 +10,7 @@ import { currencyToString, formatCurrency } from "../../hooks/formatNumber";
 type props = {
   setOpenReceipt: React.Dispatch<SetStateAction<any>>;
   setOpenModal: React.Dispatch<SetStateAction<any>>;
+  setOpenSubscription:React.Dispatch<SetStateAction<any>>
   name: string;
   transactionID: string;
   referenceID: string;
@@ -24,6 +25,7 @@ export const SuccessfulPayment = ({
   referenceID,
   amount,
   dates,
+  setOpenSubscription
 }: props) => {
   return (
     <SuccessModal width="27%">
@@ -88,6 +90,7 @@ export const SuccessfulPayment = ({
           onClick={() => {
             setOpenReceipt(false)
             setOpenModal(false)
+            setOpenSubscription(false)
           }}
         ></Button>
       </div>

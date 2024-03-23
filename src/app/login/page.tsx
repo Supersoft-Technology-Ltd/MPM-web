@@ -19,6 +19,7 @@ import { useState } from "react";
 
 const Login = () => {
   const dispatch = useAppThunkDispatch();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const {
@@ -37,6 +38,7 @@ const Login = () => {
     },
     validationSchema: signInValidationSchema,
     onSubmit: async (values) => {
+      setLoading(true);
       const payload = {
         email: values.email,
         password: values.password,
@@ -44,6 +46,7 @@ const Login = () => {
       await dispatch(signIn(payload)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           toast.success("Logged in successfully");
+
           if (!res.payload.verified) {
             setOpenModal(true);
           } else {
@@ -53,6 +56,7 @@ const Login = () => {
         } else {
           console.log(res?.payload?.data?.response);
         }
+        setLoading(false)
       });
     },
   });
@@ -94,6 +98,7 @@ const Login = () => {
             variant="submit"
             onClick={() => handleSubmit()}
             title="Login"
+            isLoading={loading}
           />
           <div
             className={`${Lora.className} font-light flex justify-between text-textBlack2`}

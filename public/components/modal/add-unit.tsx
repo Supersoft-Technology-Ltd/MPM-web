@@ -159,7 +159,7 @@ export const AddUnit = forwardRef(
 
     return (
       <ModalContainer
-        width={matches ? "35%" : "80%"}
+        width={matches ? "35%" : "95%"}
         title="Add Units"
         handleModalClose={() => {
           setAddUnitModal(false);

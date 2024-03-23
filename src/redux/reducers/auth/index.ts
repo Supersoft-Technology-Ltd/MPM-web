@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { signUp, signIn, verifyOtp, updatePassword, updateProfile } from "./thunk-action";
+import {
+  signUp,
+  signIn,
+  verifyOtp,
+  updatePassword,
+  updateProfile,
+  requestOtp,
+  forgotPasswordEndpoint,
+} from "./thunk-action";
 import { UserData } from "./interface";
 import { RootState } from "@/redux/store";
 
@@ -13,10 +21,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setCurrentUser: (state, payload) => {
+    setCurrentUser: (state, { payload }) => {
       return {
         ...state,
-        user: {},
+        user: payload,
       };
     },
   },
@@ -81,6 +89,32 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(updateProfile.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //requestOtp
+    builder.addCase(requestOtp.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+
+    builder.addCase(requestOtp.fulfilled, (state) => {
+      return { ...state, loading: "successful" };
+    });
+    builder.addCase(requestOtp.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //forgotPassword
+    builder.addCase(forgotPasswordEndpoint.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+
+    builder.addCase(forgotPasswordEndpoint.fulfilled, (state) => {
+      return { ...state, loading: "successful" };
+    });
+    builder.addCase(forgotPasswordEndpoint.rejected, (state, action) => {
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });

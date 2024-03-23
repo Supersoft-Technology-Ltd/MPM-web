@@ -25,7 +25,7 @@ export const Success: React.FC<props> = ({ text, title, subtext }) => {
         {text}
       </p>
       <p
-        className={`${Raleway.className} font-extralight text-[12px] pt-4 text-textBlack2`}
+        className={`${Raleway.className} text-center w-[80%] mx-auto font-extralight text-[12px] pt-4 text-textBlack2`}
       >
         {subtext}
       </p>

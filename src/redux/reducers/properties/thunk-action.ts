@@ -121,3 +121,23 @@ export const getTenancyDetails = createAsyncThunk(
     }
   }
 );
+export const deleteOneProperty = createAsyncThunk(
+  "property/deleteOneProperty",
+  async (id: string, thunkAPI) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/properties/delete-property/${id}`,
+        method: "delete",
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error);
+        const msg = error?.response || "An error occured, please try again";
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(error?.response as any);
+      }
+    }
+  }
+);

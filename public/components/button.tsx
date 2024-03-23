@@ -1,12 +1,25 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { AmericanTypewriter } from "../fonts";
+import ClipLoader from "react-spinners/ClipLoader";
 type props = {
   title: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   variant?: "submit" | "cancel" | "outlined";
-  disabled?: boolean
+  disabled?: boolean;
+  isLoading?: boolean;
 };
-export const Button: React.FC<props> = ({ title, onClick, variant, disabled = false }) => {
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "white",
+};
+export const Button: React.FC<props> = ({
+  title,
+  onClick,
+  variant,
+  disabled = false,
+  isLoading = false,
+}) => {
   return (
     <div>
       {variant === "submit" ? (
@@ -15,7 +28,18 @@ export const Button: React.FC<props> = ({ title, onClick, variant, disabled = fa
           onClick={onClick}
           disabled={disabled}
         >
-          {title}
+          {isLoading === true ? (
+            <ClipLoader
+              color={"white"}
+              loading={true}
+              cssOverride={override}
+              size={25}
+              aria-label="Loading Spinner"
+              data-testid="loader"
+            />
+          ) : (
+            title
+          )}
         </button>
       ) : variant === "cancel" ? (
         <button

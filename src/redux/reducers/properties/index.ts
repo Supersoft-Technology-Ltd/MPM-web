@@ -5,6 +5,7 @@ import {
   editProperty,
   getPropertyDetails,
   getTenancyDetails,
+  deleteOneProperty,
 } from "./thunk-action";
 import { Property, TenancyInfo, propertyDetails } from "./interface";
 
@@ -86,6 +87,20 @@ const propertySlice = createSlice({
       };
     });
     builder.addCase(getTenancyDetails.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+    //deleteOneProperty
+    builder.addCase(deleteOneProperty.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(deleteOneProperty.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+      };
+    });
+    builder.addCase(deleteOneProperty.rejected, (state, action) => {
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });

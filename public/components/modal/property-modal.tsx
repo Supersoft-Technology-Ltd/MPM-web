@@ -11,9 +11,11 @@ import { toast } from "react-toastify";
 import { getTenantInUnit } from "@/redux/reducers/unit/thunk-action";
 import { useMediaQuery } from "../../hooks/usemediaquery";
 import { useRouter } from "next/navigation";
-
+import { ImBin } from "react-icons/im";
+import { deleteOneProperty } from "@/redux/reducers/properties/thunk-action";
 
 type propertyProps = {
+  onClick: () => void;
   name?: string;
   value?: string;
   title?: string;
@@ -59,6 +61,7 @@ export const PropertyModal = ({
   openAddPropertyModal,
   modalTitle,
   onClear,
+  onClick,
 }: propertyProps) => {
   const matches = useMediaQuery("(min-width: 600px)");
   const [isEditMode, setIsEditMode] = useState(false);
@@ -95,6 +98,7 @@ export const PropertyModal = ({
       console.log(error);
     }
   };
+
   return (
     <ModalContainer
       width={matches ? "36%" : "85%"}
@@ -103,25 +107,35 @@ export const PropertyModal = ({
       title={modalTitle}
     >
       <div
-        className="flex items-start w-full h-[80px]
+        className="flex items-start w-full h-[80px]  relative
           border border-[rgba(0, 65, 160, 0.3)] rounded-[1rem] px-4 py-4"
       >
-        <div className="w-[45px] h-[45px] bg-grey4 rounded-[12px] flex items-center justify-center">
-          <ImLocation2 color="#EB212D" size={22} />
-        </div>
-        <div className="ml-4">
-          <p
-            className={`${Lora.className} capitalize font-medium text-darkText text-[15px]`}
+        <div className="flex items-center justify-between">
+          <div className="w-[45px] h-[45px] bg-grey4 rounded-[12px] flex items-center justify-center">
+            <ImLocation2 color="#EB212D" size={22} />
+          </div>
+          <div className="ml-4">
+            <p
+              className={`${Lora.className} capitalize font-medium text-darkText text-[15px]`}
+            >
+              {modalTitle === "Property Details"
+                ? title
+                : property.propertyName}
+            </p>
+            <p
+              className={`${Lora.className} font-light text-address text-[13px]`}
+            >
+              {modalTitle === "Property Details"
+                ? value
+                : property.propertyLocation}
+            </p>
+          </div>
+          <div
+            className="flex justify-end items-end absolute right-[5%]"
+            onClick={onClick}
           >
-            {modalTitle === "Property Details" ? title : property.propertyName}
-          </p>
-          <p
-            className={`${Lora.className} font-light text-address text-[13px]`}
-          >
-            {modalTitle === "Property Details"
-              ? value
-              : property.propertyLocation}
-          </p>
+            <ImBin color="red" />
+          </div>
         </div>
       </div>
       {modalTitle !== "View Tenants" && (
@@ -157,7 +171,7 @@ export const PropertyModal = ({
                   handleModalClose();
                   setOpenPropertyList(false);
                   setAddUnitModal(true);
-                  router.push('/portfolio?action=edit')
+                  router.push("/portfolio?action=edit");
                 }}
               >
                 <p
@@ -276,7 +290,7 @@ export const PropertyModal = ({
                   setModalIsOpen(false);
                   setAddUnitModal(true);
                   onClear && onClear();
-                  router.push('/portfolio?action=add')
+                  router.push("/portfolio?action=add");
                 }}
                 className={`${Lora.className} 
               cursor-pointer underline text-colorPrimary font-light text-[13px]`}

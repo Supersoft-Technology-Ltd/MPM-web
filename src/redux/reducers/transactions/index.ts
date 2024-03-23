@@ -2,23 +2,43 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   InitiatePayment,
   InitiateSubscriptionPayment,
+  createBankDetails,
+  getAccountName,
+  getAllBanks,
   getAllTransactions,
   getFinancials,
   getPaymentMthods,
   getSubscriptionPlans,
+  getUserBankDetails,
+  updateBankDetails,
 } from "./thunk-action";
-import { MessageItem, ResponseData, UserWallet } from "./interface";
+import {
+  BankDetailsResponse,
+  MessageItem,
+  ResponseData,
+  UserWallet,
+} from "./interface";
 
 const initialState: {
   allPaymentOptions: Array<any>;
   allTransactions: MessageItem[];
   allFinancials: UserWallet;
+  allUserBankDetails: BankDetailsResponse;
   allSubscriptionPlans: Array<any>;
+  allBanks: Array<any>;
+  data: {
+    account_name: string;
+  };
 } = {
   allPaymentOptions: [],
   allTransactions: [],
   allFinancials: {} as UserWallet,
+  allUserBankDetails: {} as BankDetailsResponse,
   allSubscriptionPlans: [],
+  allBanks: [],
+  data: {
+    account_name: "",
+  },
 };
 
 const transactionSlice = createSlice({
@@ -120,6 +140,80 @@ const transactionSlice = createSlice({
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });
+
+    //getAllBanks
+    builder.addCase(getAllBanks.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(getAllBanks.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+        allBanks: action.payload.message,
+      };
+    });
+    builder.addCase(getAllBanks.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //getAccountName
+    builder.addCase(getAccountName.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(getAccountName.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+        data: action.payload.data,
+      };
+    });
+    builder.addCase(getAccountName.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //createBankDetails
+    builder.addCase(createBankDetails.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(createBankDetails.fulfilled, (state) => {
+      return { ...state, loading: "successful" };
+    });
+    builder.addCase(createBankDetails.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //updateBankDetails
+    builder.addCase(updateBankDetails.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(updateBankDetails.fulfilled, (state) => {
+      return { ...state, loading: "successful" };
+    });
+    builder.addCase(updateBankDetails.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //getUserBankDetails
+    builder.addCase(getUserBankDetails.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(getUserBankDetails.fulfilled, (state, action) => {
+      console.log(action.payload.message, "pay");
+      return {
+        ...state,
+        loading: "successful",
+        allUserBankDetails: action.payload,
+      };
+    });
+    builder.addCase(getUserBankDetails.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
   },
 });
+
 export const transactionReducer = transactionSlice.reducer;

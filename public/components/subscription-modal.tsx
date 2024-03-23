@@ -12,9 +12,12 @@ import { Button } from "./button";
 import { StatusSelect } from "./select";
 import { usePaystackPayment } from "react-paystack";
 import { useSelectCurrentUser } from "@/redux/reducers/auth";
+import { SuccessfulPayment } from "./payments/bill-successful";
+import moment from "moment";
 
 type props = {
   setReceipt: Dispatch<SetStateAction<any>>;
+  setOpenModal: Dispatch<SetStateAction<any>>;
   receipt: {
     name: string;
     amount: string;
@@ -28,6 +31,7 @@ export const Subscription = ({
   setOpenReceipt,
   setReceipt,
   receipt,
+  setOpenModal,
 }: props) => {
   const [active, setActive] = useState(0);
   const user = useAppSelector(useSelectCurrentUser);
@@ -67,11 +71,17 @@ export const Subscription = ({
 
   const onSuccess = (reference: string) => {
     console.log(reference);
-    setOpenReceipt(true)
+    setTimeout(() => {
+      setOpenReceipt({
+        ...receipt,
+        open: true,
+      });
+    }, 200);
   };
   const onClose = () => {
     console.log("closed");
   };
+
   const subscriptionPayment = () => {
     dispatch(
       InitiateSubscriptionPayment({
@@ -105,70 +115,82 @@ export const Subscription = ({
     });
   };
   return (
-    <div className="flex flex-col gap-4 mt-4">
-      <div>
-        {[...allSubscriptionPlans]
-          ?.sort((a, b) => a.subscriptionPrice - b.subscriptionPrice)
-          ?.map((elem, id) => (
-            <div
-              onClick={() => {
-                handleActive(id, elem.subscriptionPrice);
-                setSelectedPayment({
-                  ...selectedPayment,
-                  planId: elem.id,
-                });
-              }}
-              key={id}
-              className="border mt-4 border-address rounded-[5px] p-4 flex justify-between items-center"
-              style={{
-                backgroundColor: active === id ? "#89c4ff" : "transparent",
-              }}
-            >
-              <div>
-                <h4 className={`${Inter.className} text-darkText3 text-[16px]`}>
-                  {elem.subscriptionMethodName}
-                </h4>
-                <p className={`${Lora.className} font-light text-[12px]`}>
-                  Units
-                </p>
-                <ul className="list-disc pl-4">
-                  <li className={`${Lora.className} font-light text-[14px]`}>
-                    {elem.lowerBound} Minimum
-                  </li>
-                  <li className={`${Lora.className} font-light text-[14px]`}>
-                    {elem.upperBound} Maximum
-                  </li>
-                </ul>
+    <>
+      <div className="flex flex-col gap-4 mt-4">
+        <div>
+          {[...allSubscriptionPlans]
+            ?.sort((a, b) => a.subscriptionPrice - b.subscriptionPrice)
+            ?.map((elem, id) => (
+              <div
+                onClick={() => {
+                  handleActive(id, elem.subscriptionPrice);
+                  setSelectedPayment({
+                    ...selectedPayment,
+                    planId: elem.id,
+                  });
+                }}
+                key={id}
+                className="border mt-4 border-address rounded-[5px] p-4 flex justify-between items-center"
+                style={{
+                  backgroundColor: active === id ? "#89c4ff" : "transparent",
+                }}
+              >
+                <div>
+                  <h4
+                    className={`${Inter.className} text-darkText3 text-[16px]`}
+                  >
+                    {elem.subscriptionMethodName}
+                  </h4>
+                  <p className={`${Lora.className} font-light text-[12px]`}>
+                    Units
+                  </p>
+                  <ul className="list-disc pl-4">
+                    <li className={`${Lora.className} font-light text-[14px]`}>
+                      {elem.lowerBound} Minimum
+                    </li>
+                    <li className={`${Lora.className} font-light text-[14px]`}>
+                      {elem.upperBound} Maximum
+                    </li>
+                  </ul>
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <p>₦ {formatCurrency(elem.subscriptionPrice)}</p>
+                  {elem.subscriptionPrice === 0 ? (
+                    ""
+                  ) : (
+                    <p
+                      className={`${Lora.className} text-[13px] text-textBlack2 font-light`}
+                    >
+                      Yearly
+                    </p>
+                  )}
+                </div>
               </div>
-              <div>
-                <p>₦ {formatCurrency(elem.subscriptionPrice)}</p>
-              </div>
-            </div>
-          ))}
-      </div>
-      <div className="mt-4">
-        <StatusSelect
-          placeholder="Select payment option"
-          options={options}
-          value={""}
-          onChange={(e) =>
-            setSelectedPayment({
-              ...selectedPayment,
-              paymentMethod: e,
-            })
+            ))}
+        </div>
+        <div className="mt-4">
+          <StatusSelect
+            placeholder="Select payment option"
+            options={options}
+            value={""}
+            onChange={(e) =>
+              setSelectedPayment({
+                ...selectedPayment,
+                paymentMethod: e,
+              })
+            }
+            onBlur={() => null}
+          />
+        </div>
+        <Button
+          title="Continue to Purchase"
+          variant="submit"
+          onClick={() => subscriptionPayment()}
+          disabled={
+            !Boolean(selectedPayment.paymentMethod && selectedPayment.planId)
           }
-          onBlur={() => null}
         />
       </div>
-      <Button
-        title="Continue to Purchase"
-        variant="submit"
-        onClick={() => subscriptionPayment()}
-        disabled={
-          !Boolean(selectedPayment.paymentMethod && selectedPayment.planId)
-        }
-      />
-    </div>
-   
+    </>
   );
 };

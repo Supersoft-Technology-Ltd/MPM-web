@@ -108,7 +108,7 @@ export const ModalCardLayout: React.FC<props> = ({
 
   return (
     <div className="fixed flex items-center z-[1000] bg-[rgba(0,0,0,0.7)] w-full h-[100vh] top-0 left-0">
-      <div className="w-[35%] mx-auto bg-white h-auto py-4 px-12 rounded-[10px]">
+      <div className="w-[90%] lg:w-[35%] mx-auto bg-white h-auto py-4 px-8 lg:px-12 rounded-[10px]">
         <h5 className={`${Lora.className} text-text_color text-center`}>
           Confirm Payment
         </h5>

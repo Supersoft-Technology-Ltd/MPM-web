@@ -24,19 +24,19 @@ export const Profile = () => {
     values,
   } = useFormik({
     initialValues: {
-      email: "",
-      firstName: "",
-      lastName: "",
-      phoneNumber: "",
-      aliasName: "",
+      email: user?.email || '',
+      firstName: user?.firstName || '',
+      lastName: user?.lastName || '',
+      phoneNumber: user?.phoneNumber || '',
+      aliasName: user?.aliasName || '',
     },
     validationSchema: updateProfileValidation,
     onSubmit: async (values) => {
       const payload = {
         email: user?.email,
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        phoneNumber: user?.phoneNumber,
+        firstName: values?.firstName,
+        lastName: values?.lastName,
+        phoneNumber: values?.phoneNumber,
         aliasName: values.aliasName,
         userId: user?.id,
       };

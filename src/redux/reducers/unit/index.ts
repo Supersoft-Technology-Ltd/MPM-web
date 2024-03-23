@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   AddTenantToOneUnit,
   AddUnits,
+  deleteOneUnit,
   getAllUnitTypes,
   getPropertyUnits,
   getTenantInUnit,
@@ -102,6 +103,20 @@ const UnitSlice = createSlice({
       };
     });
     builder.addCase(getTenantInUnit.rejected, (state, action) => {
+      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+    //deleteOneUnit
+    builder.addCase(deleteOneUnit.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(deleteOneUnit.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+      };
+    });
+    builder.addCase(deleteOneUnit.rejected, (state, action) => {
       console.log(action.payload);
       return { ...state, loading: "failed" };
     });

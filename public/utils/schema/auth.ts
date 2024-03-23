@@ -6,6 +6,7 @@ export const signUpValidationSchema = Yup.object().shape({
   phoneNumber: Yup.string().required("Phone number is required"),
   role: Yup.string().required("Status is required"),
   email: Yup.string().email().required("Email is required"),
+  referredBy: Yup.string().optional(),
   password: Yup.string()
     .required("Password is required")
     .test("specialChars", "Field must contain special characters", (value) => {
@@ -39,7 +40,7 @@ export const signInValidationSchema = Yup.object().shape({
 
 export const changePasswordValidation = Yup.object().shape({
   oldPassword: Yup.string().required("Old password is required"),
-  password: Yup.string()
+  newPassword: Yup.string()
     .required("New password is required")
     .test("specialChars", "Field must contain special characters", (value) => {
       const regex = /[~!@#$%^&*)(_+\-:[}=]/;
@@ -61,7 +62,7 @@ export const changePasswordValidation = Yup.object().shape({
   confirm_password: Yup.string()
     .required("Confirm Password is required")
     .test("passwords-match", "Passwords must match", function (value) {
-      return this.parent.password === value;
+      return this.parent.newPassword === value;
     }),
 });
 
@@ -71,4 +72,31 @@ export const updateProfileValidation = Yup.object().shape({
   lastName: Yup.string().optional(),
   aliasName: Yup.string().optional(),
   phoneNumber: Yup.string().optional(),
+});
+
+export const forgotPasswordValidation = Yup.object().shape({
+  newPassword: Yup.string()
+    .required("New password is required")
+    .test("specialChars", "Field must contain special characters", (value) => {
+      const regex = /[~!@#$%^&*)(_+\-:[}=]/;
+      return regex.test(value || "");
+    })
+    .test("specialChars", "Field must contain at least one number", (value) => {
+      const regex = /\d/;
+      return regex.test(value || "");
+    })
+    .test(
+      "specialChars",
+      "Field must contain at least an uppercase",
+      (value) => {
+        const regex = /[A-Z]/;
+        return regex.test(value || "");
+      }
+    )
+    .min(8),
+  confirm_password: Yup.string()
+    .required("Confirm Password is required")
+    .test("passwords-match", "Passwords must match", function (value) {
+      return this.parent.newPassword === value;
+    }),
 });

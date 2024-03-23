@@ -1,4 +1,3 @@
-
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios, { AxiosError } from "axios";
 import useAxios from "../../../../public/utils/config/useAxios";
@@ -37,7 +36,7 @@ export const AddUnits = createAsyncThunk(
       return resp.data;
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
-        const axiosError = error as AxiosError; 
+        const axiosError = error as AxiosError;
         const responseData = axiosError.response?.data || {};
         console.log("responseData", responseData);
 
@@ -55,7 +54,7 @@ export const AddUnits = createAsyncThunk(
 );
 export const getPropertyUnits = createAsyncThunk(
   "unit/getPropertyUnits",
-  async (id:string, thunkAPI) => {
+  async (id: string, thunkAPI) => {
     try {
       const resp = await useAxios({
         url: `${BASE_URL}/properties/get-property-units/${id}`,
@@ -86,7 +85,7 @@ export const AddTenantToOneUnit = createAsyncThunk(
       return resp.data;
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
-        const axiosError = error as AxiosError; 
+        const axiosError = error as AxiosError;
         const responseData = axiosError.response?.data || {};
         console.log("responseData", responseData);
 
@@ -105,7 +104,7 @@ export const AddTenantToOneUnit = createAsyncThunk(
 
 export const removeOneTenant = createAsyncThunk(
   "unit/removeOneTenant",
-  async (id:string, thunkAPI) => {
+  async (id: string, thunkAPI) => {
     try {
       const resp = await useAxios({
         url: `${BASE_URL}/properties/tenancy/remove-tenancy/${id}`,
@@ -125,7 +124,7 @@ export const removeOneTenant = createAsyncThunk(
 );
 export const getTenantInUnit = createAsyncThunk(
   "unit/getTenantInUnit",
-  async (id:string, thunkAPI) => {
+  async (id: string, thunkAPI) => {
     try {
       const resp = await useAxios({
         url: `${BASE_URL}/properties/get-tenant-in-a-unit/${id}`,
@@ -143,4 +142,23 @@ export const getTenantInUnit = createAsyncThunk(
     }
   }
 );
-
+export const deleteOneUnit = createAsyncThunk(
+  "property/deleteOneUnit",
+  async (id: string, thunkAPI) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/properties/delete-unit/${id}`,
+        method: "delete",
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error);
+        const msg = error?.response || "An error occured, please try again";
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(error?.response as any);
+      }
+    }
+  }
+);

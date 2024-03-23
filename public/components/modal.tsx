@@ -20,7 +20,7 @@ export const ModalContainer = ({
   return (
     <div className="fixed flex overflow-y-auto items-center z-[1000] bg-[rgba(0,0,0,0.7)] w-full h-[100vh] top-0 left-0">
       <div
-        className="mx-auto bg-white h-auto max-h-[95%] overflow-auto py-4 px-8 rounded-[10px]"
+        className="mx-auto bg-white h-auto max-h-[95%] overflow-auto lg:px-8 lg:py-4 px-6 py-4 py-2rounded-[10px]"
         style={{ width }}
       >
         <div className="flex items-center justify-between">

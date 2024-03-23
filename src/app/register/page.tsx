@@ -13,10 +13,12 @@ import { useAppThunkDispatch, useAppSelector } from "@/redux/store";
 import { signUp } from "../../../src/redux/reducers/auth/thunk-action";
 import { ToastContainer, toast } from "react-toastify";
 import { ResetPassword } from "../../../public/components/modal/reset-password";
+import { authReducer } from "@/redux/reducers/auth";
 
 const Register = () => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
+  const {loading} = useAppSelector(({authReducer}) => authReducer)
   const dispatch = useAppThunkDispatch();
   const {
     handleSubmit,
@@ -35,9 +37,19 @@ const Register = () => {
       lastName: "",
       phoneNumber: "",
       role: "",
+      referredBy: "",
     },
     validationSchema: signUpValidationSchema,
     onSubmit: async (values) => {
+      console.log({
+        email: values.email,
+        password: values.password,
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        role: values.role,
+        referredBy: values.referredBy,
+      })
       const payload = {
         email: values.email,
         password: values.password,
@@ -45,6 +57,7 @@ const Register = () => {
         lastName: values.lastName,
         phoneNumber: values.phoneNumber,
         role: values.role,
+        referredBy: values.referredBy,
       };
       await dispatch(signUp(payload)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
@@ -129,6 +142,13 @@ const Register = () => {
             err={!!errors.role && touched.role}
             errMsg={errors.role}
           />
+          <Inputs
+            type="text"
+            onChange={handleChange("referredBy")}
+            onBlur={handleBlur("referredBy")}
+            name="referredBy"
+            placeholder="Referral Code"
+          />
           <p
             className={`${Lora.className} font-extralight text-center text-[12px] text-textBlack2`}
           >
@@ -139,6 +159,7 @@ const Register = () => {
             variant="submit"
             onClick={() => handleSubmit()}
             title="Sign Up"
+            isLoading={loading === 'pending'}
           />
           <div
             className={`${Lora.className} font-light flex justify-between text-textBlack2 pt-[-2rem]`}

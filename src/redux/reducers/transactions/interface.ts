@@ -25,3 +25,17 @@ export interface UserWallet {
     inflowHistory: number[];
     outflowHistory: number[];
 }
+export interface BankDetailsResponse {
+    hasError: boolean;
+    errorType: null | string;
+    message: {
+      id: number;
+      userId: string;
+      accountNumber: string;
+      accountName: string;
+      financialInstitution: string;
+      paystackRecipientCode: string;
+      paystackTransferId: string;
+      createdAt: string;
+    };
+  }

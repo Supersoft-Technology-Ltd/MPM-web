@@ -10,7 +10,7 @@ type details = {
 
 export const Cards = ({ data }: { data: details[] }) => {
   return (
-    <div className="flex justify-between items-center gap-[1rem] w-full">
+    <div className="flex justify-between flex-wrap lg:flex-nowrap items-center gap-[1rem] w-full">
       {data.map((elem, id) => (
         <div className="bg-white w-full h-[110px] shadow-th rounded-[13px] flex items-center justify-start py-2 px-2">
           <div className="w-[45px] h-[40px]">

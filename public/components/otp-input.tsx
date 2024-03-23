@@ -1,40 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import OtpInput from "react-otp-input";
 import { verifyOtp } from "@/redux/reducers/auth/thunk-action";
 import { useAppThunkDispatch, useAppSelector } from "@/redux/store";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 type props = {
   title: string;
+  otp: string;
+  setOtp: Dispatch<SetStateAction<string>>
 };
-export default function Otp({ title }: props) {
-  const [otp, setOtp] = useState("");
-  const [openModal, setOpenModal] = useState(false)
-  const router = useRouter();
-  const dispatch = useAppThunkDispatch();
+export default function Otp({ title, otp, setOtp }: props) {
+  console.log();
 
-  const handleVerifyOtp = async () => {
-    try {
-      await dispatch(verifyOtp(otp)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          toast.success("Email verified successfully");
-          setOpenModal(false)
-          router.push("/login");
-        } else {
-          console.log(res?.payload?.data?.response);
-        }
-      });
-    } catch (error) {
-      console.error("OTP Verification failed", error);
-    }
-  };
-  useEffect(() => {
-    if (otp.length === 6) {
-      if (title === "Verify Email") {
-        handleVerifyOtp();
-      }
-    }
-  }, [otp]);
   return (
     <OtpInput
       value={otp}

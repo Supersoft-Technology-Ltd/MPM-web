@@ -27,14 +27,15 @@ export const Settings = ({ setOpenSuccessModal }: props) => {
   } = useFormik({
     initialValues: {
       oldPassword: "",
-      password: "",
+      newPassword: "",
       confirm_password: ""
     },
     validationSchema: changePasswordValidation,
     onSubmit: async (values) => {
+ 
       const payload = {
         oldPassword: values.oldPassword,
-        password: values.password,
+        newPassword: values.newPassword,
         userId: user?.id
       };
       await dispatch(updatePassword(payload)).then((res) => {
@@ -63,12 +64,12 @@ export const Settings = ({ setOpenSuccessModal }: props) => {
         </label>
         <Inputs
           type="password"
-          onChange={handleChange("old_password")}
-          onBlur={handleBlur("old_password")}
+          onChange={handleChange("oldPassword")}
+          onBlur={handleBlur("oldPassword")}
           err={!!errors.oldPassword && touched.oldPassword}
           errMsg={errors.oldPassword}
           style={{ marginTop: "8px" }}
-          name="old_password"
+          name="oldPassword"
           placeholder="Enter old password"
         />
       </div>
@@ -80,12 +81,12 @@ export const Settings = ({ setOpenSuccessModal }: props) => {
         </label>
         <Inputs
           type="password"
-          onChange={handleChange("password")}
-          onBlur={handleBlur("password")}
-          err={!!errors.password && touched.password}
-          errMsg={errors.password}
+          onChange={handleChange("newPassword")}
+          onBlur={handleBlur("newPassword")}
+          err={!!errors.newPassword && touched.newPassword}
+          errMsg={errors.newPassword}
           style={{ marginTop: "8px" }}
-          name="password"
+          name="newPassword"
           placeholder="Enter new password"
         />
       </div>

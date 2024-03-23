@@ -12,6 +12,7 @@ import { AddTenantToUnit } from "../../../public/components/modal/add-tenant-uni
 import { AddUnit } from "../../../public/components/modal/add-unit";
 import { ModalLayout } from "../../../public/components/modal-layout";
 import {
+  deleteOneProperty,
   getAllProperties,
   getTenancyDetails,
 } from "@/redux/reducers/properties/thunk-action";
@@ -26,13 +27,16 @@ import {
   Tenancy,
   Unit,
 } from "@/redux/reducers/properties/interface";
-import { getPropertyUnits } from "@/redux/reducers/unit/thunk-action";
+import {
+  deleteOneUnit,
+  getPropertyUnits,
+} from "@/redux/reducers/unit/thunk-action";
 import { useMediaQuery } from "../../../public/hooks/usemediaquery";
 import { Rental } from "../../../public/components/modal/rental";
 import { formatCurrency } from "../../../public/hooks/formatNumber";
+import { toast } from "react-toastify";
 
 const Portfolio = () => {
-
   const [action, setAction] = useState<
     "properties" | "tenancy" | "rental" | ""
   >("");
@@ -142,7 +146,17 @@ const Portfolio = () => {
     console.log(id, "pp");
   };
   console.log(allTenancyDetails, "allll");
+  const deleteProperty = () => {
+    dispatch(deleteOneProperty(property.id));
+    toast.success("Property deleted successfully");
+    loadProperties();
+  };
 
+  const deleteUnit = () => {
+    dispatch(deleteOneUnit(oneUnit.id));
+    toast.success("Unit deleted successfully");
+    loadUnits();
+  };
   const loadProperties = () => {
     if (user?.id) {
       dispatch(getAllProperties(user.id));
@@ -237,6 +251,10 @@ const Portfolio = () => {
           )}
           {modalIsOpen && (
             <PropertyModal
+              onClick={() => {
+                deleteProperty();
+                setModalIsOpen(false);
+              }}
               openAddPropertyModal={openAddPropertyModal}
               modalTitle="Property Details"
               handleModalClose={() => {
@@ -289,6 +307,10 @@ const Portfolio = () => {
           )}
           {openUnitModal && (
             <PropertyModal
+              onClick={() => {
+                deleteUnit();
+                setOpenUnitModal(false);
+              }}
               openAddPropertyModal={openAddPropertyModal}
               modalTitle="Unit Details"
               setOpenProperty={setOpenProperty}
@@ -325,8 +347,6 @@ const Portfolio = () => {
         </>
       )}
       {action === "rental" && (
-
-        
         <>
           {openRentals && (
             <ModalContainer
@@ -360,7 +380,7 @@ const Portfolio = () => {
             <ModalContainer
               goBack={true}
               title="Rental Details"
-              width={matches ? "35%" : "80%"}
+              width={matches ? "35%" : "95%"}
               handleModalClose={() => setOpenRentalDetails(false)}
             >
               <Rental
@@ -381,7 +401,7 @@ const Portfolio = () => {
         <>
           {openTenancy && (
             <ModalLayout
-            setPaymentDetails={setPaymentDetails}
+              setPaymentDetails={setPaymentDetails}
               buttonTitle="View Tenants"
               handleModalOpen={() => {
                 setOpenTenancy(false);
@@ -396,6 +416,10 @@ const Portfolio = () => {
           )}
           {openProperty && (
             <PropertyModal
+              onClick={() => {
+                deleteProperty();
+                setModalIsOpen(false);
+              }}
               openAddPropertyModal={openAddPropertyModal}
               setOpenAddPropertyModal={setOpenAddPropertyModal}
               setOpenPropertyList={setOpenPropertyList}
