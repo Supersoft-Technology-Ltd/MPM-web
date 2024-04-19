@@ -7,6 +7,7 @@ import {
   updateProfile,
   requestOtp,
   forgotPasswordEndpoint,
+  completeProfile,
 } from "./thunk-action";
 import { UserData } from "./interface";
 import { RootState } from "@/redux/store";
@@ -39,7 +40,6 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(signUp.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -52,7 +52,6 @@ const authSlice = createSlice({
       return { ...state, loading: "successful", user: action.payload };
     });
     builder.addCase(signIn.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //verifyOtp
@@ -64,7 +63,6 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(verifyOtp.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //updatePassword
@@ -76,7 +74,6 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(updatePassword.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -89,7 +86,6 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(updateProfile.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -102,7 +98,6 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(requestOtp.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -115,7 +110,18 @@ const authSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(forgotPasswordEndpoint.rejected, (state, action) => {
-      console.log(action.payload);
+      return { ...state, loading: "failed" };
+    });
+
+    //completeProfile
+    builder.addCase(completeProfile.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+
+    builder.addCase(completeProfile.fulfilled, (state) => {
+      return { ...state, loading: "successful" };
+    });
+    builder.addCase(completeProfile.rejected, (state, action) => {
       return { ...state, loading: "failed" };
     });
   },

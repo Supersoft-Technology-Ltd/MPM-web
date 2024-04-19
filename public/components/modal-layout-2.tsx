@@ -18,13 +18,13 @@ type props = {
   setOpenModal: React.Dispatch<React.SetStateAction<any>>;
   setModalIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   receipt: {
-    name: string,
-    amount: string,
-    transactionID: string,
-    referenceID: string,
-    dates: string
-  }
-  setReceipt: React.Dispatch<SetStateAction<any>>
+    name: string;
+    amount: string;
+    transactionID: string;
+    referenceID: string;
+    dates: string;
+  };
+  setReceipt: React.Dispatch<SetStateAction<any>>;
   setOpenReceipt: React.Dispatch<SetStateAction<any>>;
   paymentDetails: any;
 };
@@ -34,7 +34,7 @@ export const ModalCardLayout: React.FC<props> = ({
   setOpenReceipt,
   paymentDetails,
   receipt,
-  setReceipt
+  setReceipt,
 }) => {
   const user = useAppSelector(useSelectCurrentUser);
   const dispatch = useAppThunkDispatch();
@@ -51,12 +51,12 @@ export const ModalCardLayout: React.FC<props> = ({
     reference: new Date().getTime().toString(),
     email: user?.email,
     amount: 0,
-    publicKey:
-      process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY ?? ""
+    publicKey: process.env.NEXT_PUBLIC_PAYSTACK_SECRET_KEY ?? "",
+    amt: 0
   });
-  
+
   const initializePayment = usePaystackPayment(config);
-  
+
   const { oneUnit } = useProperties();
 
   const options = allPaymentOptions.map(
@@ -75,7 +75,7 @@ export const ModalCardLayout: React.FC<props> = ({
   };
 
   const onClose = () => {
-    console.log("closed");
+    // console.log("closed");
   };
 
   useEffect(() => {
@@ -87,11 +87,12 @@ export const ModalCardLayout: React.FC<props> = ({
         })
       ).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
-          console.log(res.payload);
+          console.log(res.payload?.message?.amountExpected, 'amt')
           setConfig({
             ...config,
-            amount: res.payload?.message?.amountExpected,
+            amount: Math.floor(Number(res.payload?.message?.amountExpected)* 100),
             reference: res.payload?.message?.referenceId,
+            amt: res.payload?.message?.amountExpected
           });
           setReceipt({
             name: res.payload.message?.landlordName,
@@ -120,7 +121,7 @@ export const ModalCardLayout: React.FC<props> = ({
           </p>
           <div className="bg-lighterGrey w-full h-[52px] rounded-[7px] mt-2 px-6 flex justify-start items-center">
             <h4 className={`${Lora.className} text-darkText font-semibold`}>
-              ₦ {formatCurrency(Number(config.amount))}
+              ₦ {formatCurrency(Number(config.amt))}
             </h4>
           </div>
         </div>
@@ -164,6 +165,7 @@ export const ModalCardLayout: React.FC<props> = ({
               onClick={() => {
                 config.amount &&
                   config.reference &&
+                  console.log(config.reference, 'ref')
                   initializePayment({ onSuccess, onClose });
               }}
               title="Next"

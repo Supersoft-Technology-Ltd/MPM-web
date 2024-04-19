@@ -37,7 +37,6 @@ export const AddBankDetails = () => {
   useEffect(() => {
     dispatch(getAllBanks());
   }, []);
-  console.log(allBanks, "all banks");
 
   const getUserAccountName = () => {
     try {
@@ -53,7 +52,6 @@ export const AddBankDetails = () => {
         ).then((res) => {
           if (res.meta.requestStatus === "fulfilled") {
           } else {
-            console.log(res.payload, "ass");
             setAccountName("");
             toast.error(res.payload.response.data.message);
           }
@@ -72,7 +70,6 @@ export const AddBankDetails = () => {
       getUserAccountName();
     }
   }, [accountNumber, selectBank]);
-  console.log(data.account_name, "acc");
 
   useEffect(() => {
     if (data && data.account_name) {

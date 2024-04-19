@@ -9,16 +9,19 @@ import { CgProfile } from "react-icons/cg";
 import { Button } from "../button";
 import { setCurrentUser } from "@/redux/reducers/auth";
 import { useRouter } from "next/navigation";
+import { NotificationDropdown } from "../notification_dropdown";
 
 export const DashboardHeader = () => {
   const user = useAppSelector(useSelectCurrentUser);
   const [show, setShow] = useState(false);
+  const [open, setOpen] = useState(false)
   const [showAlertModal, setShowAlertModal] = useState(false);
   const dispatch = useAppThunkDispatch();
   const router = useRouter();
 
   const handleLogout = () => {
     dispatch(setCurrentUser({}));
+    localStorage.setItem('accessToken', '')
     router.push("/login");
   };
   return (
@@ -32,7 +35,7 @@ export const DashboardHeader = () => {
           />
         </div>
         <div className="flex lg:items-center justify-end w-full">
-          <div className="flex flex-col justify-center items-center lg:mr-20 mr-10">
+          <div className="flex flex-col justify-center items-center lg:mr-20 mr-10" onClick={() => router.push('/notification')}>
             <img
               src="/assets/active-notification.png"
               alt=""
@@ -44,6 +47,7 @@ export const DashboardHeader = () => {
               Notifications
             </p>
           </div>
+          {/* {open  && <NotificationDropdown />} */}
           <div className="flex items-center">
             <div className="bg-[#EAEAEA] lg:w-[52px] w-[40px] h-[40px] mr-6 lg:h-[52px] border border-[#2C5AA3] flex justify-center items-center rounded-[50%]">
               <p

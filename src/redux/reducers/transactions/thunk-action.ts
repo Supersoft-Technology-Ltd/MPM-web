@@ -273,3 +273,23 @@ export const updateBankDetails = createAsyncThunk(
     }
   }
 );
+export const getAllNotifications = createAsyncThunk(
+  "transaction/getAllNotifications",
+  async (id: string, thunkAPI) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/activities/get-activities/${id}`,
+        method: "get",
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        console.log(error);
+        const msg = error?.response || "An error occured, please try again";
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(error?.response as any);
+      }
+    }
+  }
+);

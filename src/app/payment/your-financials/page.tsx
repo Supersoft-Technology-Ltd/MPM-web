@@ -28,7 +28,6 @@ const YourFinancials = () => {
       dispatch(getFinancials(user.id));
     }
   }, [user]);
-  console.log(allFinancials, "all");
   return (
     <div>
       <LayoutContainer>

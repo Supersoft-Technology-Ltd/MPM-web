@@ -66,7 +66,6 @@ export const AddProperty = ({
         propertyId: property?.id,
         occupationalStatus: user?.roles[0],
       }
-      console.log(payload, "payload");
       if (modalTitle === "Add Property") {
         await dispatch(AddProperties(payload)).then((res) => {
           if (res.meta.requestStatus === "fulfilled") {
@@ -90,7 +89,6 @@ export const AddProperty = ({
       }
     },
   });
-  console.log(errors, "errr");
   const matches = useMediaQuery("(min-width: 767px)");
   useEffect(() => {
     if (Object.keys(property ?? {}).length) {

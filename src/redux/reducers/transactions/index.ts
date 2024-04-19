@@ -11,11 +11,13 @@ import {
   getSubscriptionPlans,
   getUserBankDetails,
   updateBankDetails,
+  getAllNotifications,
 } from "./thunk-action";
 import {
   BankDetailsResponse,
   MessageItem,
   ResponseData,
+  NotificationItem,
   UserWallet,
 } from "./interface";
 
@@ -29,6 +31,7 @@ const initialState: {
   data: {
     account_name: string;
   };
+  allNotification: NotificationItem[];
 } = {
   allPaymentOptions: [],
   allTransactions: [],
@@ -39,6 +42,7 @@ const initialState: {
   data: {
     account_name: "",
   },
+  allNotification: [],
 };
 
 const transactionSlice = createSlice({
@@ -59,7 +63,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getPaymentMthods.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -75,7 +78,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getAllTransactions.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -91,10 +93,23 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getFinancials.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
+    //getNotifications
+    builder.addCase(getAllNotifications.pending, (state) => {
+      return { ...state, loading: "pending" };
+    });
+    builder.addCase(getAllNotifications.fulfilled, (state, action) => {
+      return {
+        ...state,
+        loading: "successful",
+        allNotification: action.payload,
+      };
+    });
+    builder.addCase(getAllNotifications.rejected, (state, action) => {
+      return { ...state, loading: "failed" };
+    });
     //initiatePayment
     builder.addCase(InitiatePayment.pending, (state) => {
       return { ...state, loading: "pending" };
@@ -106,7 +121,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(InitiatePayment.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -122,7 +136,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getSubscriptionPlans.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -137,7 +150,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(InitiateSubscriptionPayment.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -153,7 +165,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getAllBanks.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -169,7 +180,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getAccountName.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -181,7 +191,6 @@ const transactionSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(createBankDetails.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -193,7 +202,6 @@ const transactionSlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(updateBankDetails.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
 
@@ -202,7 +210,6 @@ const transactionSlice = createSlice({
       return { ...state, loading: "pending" };
     });
     builder.addCase(getUserBankDetails.fulfilled, (state, action) => {
-      console.log(action.payload.message, "pay");
       return {
         ...state,
         loading: "successful",
@@ -210,7 +217,6 @@ const transactionSlice = createSlice({
       };
     });
     builder.addCase(getUserBankDetails.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
   },

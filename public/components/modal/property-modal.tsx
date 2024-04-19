@@ -75,12 +75,11 @@ export const PropertyModal = ({
   useEffect(() => {
     dispatch(getTenantInUnit(oneUnit.id));
   }, []);
-  console.log(property, "one");
-
+console.log(oneTenantDetails)
   const removeTenant = async () => {
     try {
       if (oneUnit.occupyingStatus) {
-        await dispatch(removeOneTenant(oneTenantDetails.tenantId)).then(
+        await dispatch(removeOneTenant(oneTenantDetails.tenancy.id)).then(
           (res) => {
             if (res.meta.requestStatus === "fulfilled") {
               toast.success("Tenant removed successfully");

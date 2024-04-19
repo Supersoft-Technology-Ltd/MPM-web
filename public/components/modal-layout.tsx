@@ -100,8 +100,7 @@ const {setProperty} = useProperties()
       dispatch(getTenancyDetails(user.id));
     }
   }, [user]);
-  console.log(allTenancyDetails, 'all')
-  
+  console.log(selectedItem, 'seell')
   return (
     <div className="fixed flex items-center z-[1000] bg-[rgba(0,0,0,0.7)] w-full h-[100vh] top-0 left-0">
       <div className=" w-[90%] lg:w-[50%] md:w-[70%] mx-auto bg-white h-[90%] overflow-y-scroll py-4 px-4 md:px-8 lg:px-12 rounded-[10px]">

@@ -59,7 +59,6 @@ export const Subscription = ({
     dispatch(getSubscriptionPlans());
     dispatch(getPaymentMthods());
   }, []);
-  console.log(allSubscriptionPlans, "subs");
 
   const options = allPaymentOptions.map(
     (paymentOption: { paymentMethod: string; paymentType: string }) => ({
@@ -78,9 +77,7 @@ export const Subscription = ({
       });
     }, 200);
   };
-  const onClose = () => {
-    console.log("closed");
-  };
+  const onClose = () => {};
 
   const subscriptionPayment = () => {
     dispatch(
@@ -91,8 +88,6 @@ export const Subscription = ({
       })
     ).then((res) => {
       if (res.meta.requestStatus === "fulfilled") {
-        console.log(res.payload, "paul");
-
         initializePayment({
           onSuccess,
           onClose,

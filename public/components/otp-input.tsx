@@ -1,5 +1,5 @@
 import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import OtpInput from "react-otp-input";
+import OtpInput from "react-otp-input"
 import { verifyOtp } from "@/redux/reducers/auth/thunk-action";
 import { useAppThunkDispatch, useAppSelector } from "@/redux/store";
 import { toast } from "react-toastify";
@@ -10,7 +10,6 @@ type props = {
   setOtp: Dispatch<SetStateAction<string>>
 };
 export default function Otp({ title, otp, setOtp }: props) {
-  console.log();
 
   return (
     <OtpInput

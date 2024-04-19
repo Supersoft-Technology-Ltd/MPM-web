@@ -31,24 +31,24 @@ export const Faqs = [
   },
 ];
 export const Socials = [
-  {
-    icon: "/assets/Whatsapp-icon.png",
-    text: "Chat Us on WhatsApp",
-    contact: "+234 9056378091",
-  },
-  {
-    icon: "/assets/Call-us.png",
-    text: "Please Call Us",
-    contact: "+234 9056378091",
-  },
+  // {
+  //   icon: "/assets/Whatsapp-icon.png",
+  //   text: "Chat Us on WhatsApp",
+  //   contact: "+234 9056378091",
+  // },
+  // {
+  //   icon: "/assets/Call-us.png",
+  //   text: "Please Call Us",
+  //   contact: "+234 9056378091",
+  // },
   {
     icon: "/assets/Email-Us.png",
     text: "Email Us",
-    contact: "info@Supersofttechnology.com",
+    contact: "info@supersoft.com.ng",
   },
-  {
-    icon: "/assets/World-wide-web-icon.png",
-    text: "Visit Our Website",
-    contact: "Www.Supersofttechnology.com",
-  },
+  // {
+  //   icon: "/assets/World-wide-web-icon.png",
+  //   text: "Visit Our Website",
+  //   contact: "Www.Supersofttechnology.com",
+  // },
 ];

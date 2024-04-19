@@ -41,6 +41,7 @@ export const signIn = createAsyncThunk(
         method: "post",
         data,
       });
+      localStorage.setItem("accessToken", resp.data.accessToken)
       return resp.data;
     } catch (error: any) {
       if (axios.isAxiosError(error) && error.response) {
@@ -130,7 +131,6 @@ export const updateProfile = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         const axiosError = error as AxiosError;
         const responseData = axiosError.response?.data || {};
-        console.log("responseData", responseData);
 
         const msg =
           typeof responseData === "object" && "message" in responseData
@@ -158,7 +158,6 @@ export const requestOtp = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         const axiosError = error as AxiosError;
         const responseData = axiosError.response?.data || {};
-        console.log("responseData", responseData);
 
         const msg =
           typeof responseData === "object" && "message" in responseData
@@ -187,7 +186,6 @@ export const forgotPasswordEndpoint = createAsyncThunk(
       if (axios.isAxiosError(error) && error.response) {
         const axiosError = error as AxiosError;
         const responseData = axiosError.response?.data || {};
-        console.log("responseData", responseData);
 
         const msg =
           typeof responseData === "object" && "message" in responseData
@@ -201,4 +199,30 @@ export const forgotPasswordEndpoint = createAsyncThunk(
     }
   }
 );
+export const completeProfile = createAsyncThunk(
+  "auth/completeProfile",
+  async (data: object, thunkAPI) => {
+    try {
+      const resp = await useAxios({
+        url: `${BASE_URL}/accounts/complete-profile`,
+        method: "put",
+        data,
+      });
+      return resp.data;
+    } catch (error: any) {
+      if (axios.isAxiosError(error) && error.response) {
+        const axiosError = error as AxiosError;
+        const responseData = axiosError.response?.data || {};
 
+        const msg =
+          typeof responseData === "object" && "message" in responseData
+            ? responseData.message
+            : "An error occurred, please try again";
+        toast.error(msg as ToastContent);
+        return thunkAPI.rejectWithValue(msg);
+      } else {
+        return thunkAPI.rejectWithValue(String(error));
+      }
+    }
+  }
+);

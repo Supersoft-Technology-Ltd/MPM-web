@@ -47,9 +47,10 @@ const Login = () => {
         if (res.meta.requestStatus === "fulfilled") {
           toast.success("Logged in successfully");
 
-          if (!res.payload.verified) {
-            setOpenModal(true);
-          } else {
+          if (!res.payload.completed) {
+         router.push('/complete-profile')
+          } 
+          else {
             router.push("/dashboard");
             setOpenModal(false);
           }

@@ -31,7 +31,6 @@ const propertySlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(AddProperties.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //getProperty
@@ -46,7 +45,6 @@ const propertySlice = createSlice({
       };
     });
     builder.addCase(getAllProperties.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //editProperty
@@ -57,7 +55,6 @@ const propertySlice = createSlice({
       return { ...state, loading: "successful" };
     });
     builder.addCase(editProperty.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //getPropertyDetails
@@ -72,7 +69,6 @@ const propertySlice = createSlice({
       };
     });
     builder.addCase(getPropertyDetails.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //getTenancyDetails
@@ -87,7 +83,6 @@ const propertySlice = createSlice({
       };
     });
     builder.addCase(getTenancyDetails.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
     //deleteOneProperty
@@ -101,7 +96,6 @@ const propertySlice = createSlice({
       };
     });
     builder.addCase(deleteOneProperty.rejected, (state, action) => {
-      console.log(action.payload);
       return { ...state, loading: "failed" };
     });
   },

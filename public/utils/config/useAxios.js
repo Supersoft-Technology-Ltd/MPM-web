@@ -22,19 +22,7 @@ const useAxios = async (request) => {
     },
 
   });
-  // console.log(request, "req");
-  // const url = request.url;
-  // delete request.url;
-
-  // const resp = await fetch(url, {
-  //   ...request,
-  //   headers: {
-  //     ...request.headers,
-  //     authorization: `Bearer ${getToken()}`,
-  //     //     // mode: "cors",
-  //     "Content-Type": "application/json",
-  //   },
-  // });
+ 
 
   if (resp.status === 401) {
     console.log("clear");

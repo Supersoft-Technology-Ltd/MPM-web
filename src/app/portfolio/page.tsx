@@ -35,6 +35,7 @@ import { useMediaQuery } from "../../../public/hooks/usemediaquery";
 import { Rental } from "../../../public/components/modal/rental";
 import { formatCurrency } from "../../../public/hooks/formatNumber";
 import { toast } from "react-toastify";
+import LayoutContainer from "../../../public/components/layout-container";
 
 const Portfolio = () => {
   const [action, setAction] = useState<
@@ -143,9 +144,7 @@ const Portfolio = () => {
         unitRent: data.unit.unitRent,
       },
     });
-    console.log(id, "pp");
   };
-  console.log(allTenancyDetails, "allll");
   const deleteProperty = () => {
     dispatch(deleteOneProperty(property.id));
     toast.success("Property deleted successfully");
@@ -179,273 +178,276 @@ const Portfolio = () => {
       dispatch(getTenancyDetails(user.id)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
           const data = res.payload;
-          console.log(data, "data");
         }
       });
     }
   }, [user]);
   return (
-    <DashboardLayout>
-      <div className={`${Lora.className} flex items-center justify-start`}>
-        <p className="text-textBlack2 font-light text-[15px] py-4">
-          You are Here {`>>`}
-        </p>
-        <h5 className="font-medium text-textBlack2 text-[16px] ml-2">
-          Portfolio
-        </h5>
-      </div>
-      <div className="flex flex-wrap gap-[2rem] w-[100%] mt-4">
-        {PortfolioCards.map((elem) => (
-          <div
-            className="flex justify-center lg:w-[22%] md:w-[30%] lg:mx-0 md:mx-0 w-[90%] mx-auto px-2 h-[120px]
+    <LayoutContainer>
+      {" "}
+      <DashboardLayout>
+        <div className={`${Lora.className} flex items-center justify-start`}>
+          <p className="text-textBlack2 font-light text-[15px] py-4">
+            You are Here {`>>`}
+          </p>
+          <h5 className="font-medium text-textBlack2 text-[16px] ml-2">
+            Portfolio
+          </h5>
+        </div>
+        <div className="flex flex-wrap gap-[2rem] w-[100%] mt-4">
+          {PortfolioCards.map((elem) => (
+            <div
+              className="flex justify-center lg:w-[22%] md:w-[30%] lg:mx-0 md:mx-0 w-[90%] mx-auto px-2 h-[120px]
             cursor-pointer items-center bg-white flex-wrap rounded-[12px] shadow-th"
-            onClick={() => handleOnClick(elem.action)}
-          >
-            <Image src={elem.img} alt="" width={50} height={50} />
-            <p
-              className={`${Lora.className} text-[#212524] font-light text-[15px] ml-4`}
+              onClick={() => handleOnClick(elem.action)}
             >
-              {elem.text}
-            </p>
-          </div>
-        ))}
-      </div>
-      {action === "properties" && (
-        <>
-          {openPropertyList && (
-            <ModalContainer
-              goBack={true}
-              title="Properties"
-              width={matches ? "35%" : "80%"}
-              handleModalClose={() => setOpenPropertyList(false)}
-            >
-              <List
-                onClick={(elem) => {
-                  setProperty(elem as Property);
-                  setOpenPropertyList(false);
-                  setModalIsOpen(true);
-                }}
-                arrDetails={allProperties?.map((elem: any) => ({
-                  label: elem.propertyName,
-                  value: elem.propertyLocation,
-                  ...elem,
-                }))}
-                setOpenUnitModal={setOpenUnitModal}
-                setOpenList={setOpenList}
-                setModalIsOpen={setModalIsOpen}
+              <Image src={elem.img} alt="" width={50} height={50} />
+              <p
+                className={`${Lora.className} text-[#212524] font-light text-[15px] ml-4`}
+              >
+                {elem.text}
+              </p>
+            </div>
+          ))}
+        </div>
+        {action === "properties" && (
+          <>
+            {openPropertyList && (
+              <ModalContainer
+                goBack={true}
+                title="Properties"
+                width={matches ? "35%" : "80%"}
+                handleModalClose={() => setOpenPropertyList(false)}
+              >
+                <List
+                  onClick={(elem) => {
+                    setProperty(elem as Property);
+                    setOpenPropertyList(false);
+                    setModalIsOpen(true);
+                  }}
+                  arrDetails={allProperties?.map((elem: any) => ({
+                    label: elem.propertyName,
+                    value: elem.propertyLocation,
+                    ...elem,
+                  }))}
+                  setOpenUnitModal={setOpenUnitModal}
+                  setOpenList={setOpenList}
+                  setModalIsOpen={setModalIsOpen}
+                  setOpenPropertyList={setOpenPropertyList}
+                  button={true}
+                  setOpenAddPropertyModal={setOpenAddPropertyModal}
+                />
+              </ModalContainer>
+            )}
+            {openAddPropertyModal && (
+              <AddProperty
                 setOpenPropertyList={setOpenPropertyList}
-                button={true}
+                modalTitle={
+                  Object.keys(property).length
+                    ? "Edit Property"
+                    : "Add Property"
+                }
+                loadProperties={loadProperties}
                 setOpenAddPropertyModal={setOpenAddPropertyModal}
               />
-            </ModalContainer>
-          )}
-          {openAddPropertyModal && (
-            <AddProperty
-              setOpenPropertyList={setOpenPropertyList}
-              modalTitle={
-                Object.keys(property).length ? "Edit Property" : "Add Property"
-              }
-              loadProperties={loadProperties}
-              setOpenAddPropertyModal={setOpenAddPropertyModal}
-            />
-          )}
-          {modalIsOpen && (
-            <PropertyModal
-              onClick={() => {
-                deleteProperty();
-                setModalIsOpen(false);
-              }}
-              openAddPropertyModal={openAddPropertyModal}
-              modalTitle="Property Details"
-              handleModalClose={() => {
-                setOpenPropertyList(true);
-                setModalIsOpen(false);
-              }}
-              setOpenAddPropertyModal={setOpenAddPropertyModal}
-              setOpenProperty={setOpenProperty}
-              setOpenPropertyList={setOpenPropertyList}
-              setAddUnitModal={setAddUnitModal}
-              setOpenUnitModal={setOpenUnitModal}
-              setModalIsOpen={setModalIsOpen}
-              setOpenList={setOpenList}
-              openList={openList}
-              value={property.propertyLocation}
-              label={property.propertyName}
-              propertyId={property.id}
-              buttonTitle="View Units"
-              record={true}
-              title="Property Location"
-              setOpenAddTenantModal={setOpenAddTenantModal}
-            />
-          )}
-          {openList && (
-            <ModalContainer
-              goBack={true}
-              title="Units"
-              width={matches ? "35%" : "80%"}
-              handleModalClose={() => setOpenList(false)}
-            >
-              <List
+            )}
+            {modalIsOpen && (
+              <PropertyModal
+                onClick={() => {
+                  deleteProperty();
+                  setModalIsOpen(false);
+                }}
+                openAddPropertyModal={openAddPropertyModal}
+                modalTitle="Property Details"
+                handleModalClose={() => {
+                  setOpenPropertyList(true);
+                  setModalIsOpen(false);
+                }}
+                setOpenAddPropertyModal={setOpenAddPropertyModal}
+                setOpenProperty={setOpenProperty}
+                setOpenPropertyList={setOpenPropertyList}
+                setAddUnitModal={setAddUnitModal}
+                setOpenUnitModal={setOpenUnitModal}
+                setModalIsOpen={setModalIsOpen}
+                setOpenList={setOpenList}
+                openList={openList}
+                value={property.propertyLocation}
+                label={property.propertyName}
+                propertyId={property.id}
+                buttonTitle="View Units"
+                record={true}
+                title="Property Location"
+                setOpenAddTenantModal={setOpenAddTenantModal}
+              />
+            )}
+            {openList && (
+              <ModalContainer
+                goBack={true}
                 title="Units"
-                arrDetails={allUnits?.map((elem: any) => ({
-                  label: elem.unitName,
-                  value: elem.unitType.description,
-                  ...elem,
-                }))}
-                onClick={(elem) => {
-                  setOneUnit(elem as any);
-                  setOpenList(false);
-                  setOpenUnitModal(true);
+                width={matches ? "35%" : "80%"}
+                handleModalClose={() => setOpenList(false)}
+              >
+                <List
+                  title="Units"
+                  arrDetails={allUnits?.map((elem: any) => ({
+                    label: elem.unitName,
+                    value: elem.unitType.description,
+                    ...elem,
+                  }))}
+                  onClick={(elem) => {
+                    setOneUnit(elem as any);
+                    setOpenList(false);
+                    setOpenUnitModal(true);
+                  }}
+                  setOpenAddPropertyModal={setOpenAddPropertyModal}
+                  setOpenUnitModal={setOpenUnitModal}
+                  setOpenList={setOpenList}
+                  setModalIsOpen={setModalIsOpen}
+                  setOpenPropertyList={setOpenPropertyList}
+                />
+              </ModalContainer>
+            )}
+            {openUnitModal && (
+              <PropertyModal
+                onClick={() => {
+                  deleteUnit();
+                  setOpenUnitModal(false);
                 }}
-                setOpenAddPropertyModal={setOpenAddPropertyModal}
-                setOpenUnitModal={setOpenUnitModal}
-                setOpenList={setOpenList}
-                setModalIsOpen={setModalIsOpen}
+                openAddPropertyModal={openAddPropertyModal}
+                modalTitle="Unit Details"
+                setOpenProperty={setOpenProperty}
                 setOpenPropertyList={setOpenPropertyList}
+                setOpenAddPropertyModal={setOpenAddPropertyModal}
+                handleModalClose={() => setOpenUnitModal(false)}
+                setAddUnitModal={setAddUnitModal}
+                setOpenUnitModal={setOpenUnitModal}
+                setModalIsOpen={setModalIsOpen}
+                setOpenList={setOpenList}
+                openList={openList}
+                label=""
+                onClear={() => ref.current?.handleClearForm()}
+                propertyId={""}
+                buttonTitle={
+                  oneUnit.occupyingStatus ? "Remove Tenant" : "Add Tenant"
+                }
+                record={false}
+                setOpenAddTenantModal={setOpenAddTenantModal}
               />
-            </ModalContainer>
-          )}
-          {openUnitModal && (
-            <PropertyModal
-              onClick={() => {
-                deleteUnit();
-                setOpenUnitModal(false);
-              }}
-              openAddPropertyModal={openAddPropertyModal}
-              modalTitle="Unit Details"
-              setOpenProperty={setOpenProperty}
-              setOpenPropertyList={setOpenPropertyList}
-              setOpenAddPropertyModal={setOpenAddPropertyModal}
-              handleModalClose={() => setOpenUnitModal(false)}
-              setAddUnitModal={setAddUnitModal}
-              setOpenUnitModal={setOpenUnitModal}
-              setModalIsOpen={setModalIsOpen}
-              setOpenList={setOpenList}
-              openList={openList}
-              label=""
-              onClear={() => ref.current?.handleClearForm()}
-              propertyId={""}
-              buttonTitle={
-                oneUnit.occupyingStatus ? "Remove Tenant" : "Add Tenant"
-              }
-              record={false}
-              setOpenAddTenantModal={setOpenAddTenantModal}
-            />
-          )}
+            )}
 
-          {openAddTenantModal && (
-            <AddTenantToUnit setOpenAddTenantModal={setOpenAddTenantModal} />
-          )}
-          {addUnitModal && (
-            <AddUnit
-              loadUnits={loadUnits}
-              ref={ref}
-              setAddUnitModal={setAddUnitModal}
-              setModalIsOpen={setModalIsOpen}
-            />
-          )}
-        </>
-      )}
-      {action === "rental" && (
-        <>
-          {openRentals && (
-            <ModalContainer
-              goBack={true}
-              title="Rentals"
-              width={matches ? "35%" : "80%"}
-              handleModalClose={() => setOpenRentals(false)}
-            >
-              <List
-                onClick={(elem: any) => {
-                  setOpenRentalDetails(true);
-                  setOpenRentals(false);
-                  handleSelect(elem?.property_details?.id);
-                  console.log(elem, "elem");
-                }}
-                arrDetails={allTenancyDetails?.map((elem: any) => ({
-                  label: elem.unit.unitName,
-                  value: elem.property_details?.propertyLocation,
-                  ...elem,
-                }))}
-                setOpenUnitModal={setOpenUnitModal}
-                setOpenList={setOpenList}
+            {openAddTenantModal && (
+              <AddTenantToUnit setOpenAddTenantModal={setOpenAddTenantModal} />
+            )}
+            {addUnitModal && (
+              <AddUnit
+                loadUnits={loadUnits}
+                ref={ref}
+                setAddUnitModal={setAddUnitModal}
                 setModalIsOpen={setModalIsOpen}
-                setOpenPropertyList={setOpenPropertyList}
-                button={true}
+              />
+            )}
+          </>
+        )}
+        {action === "rental" && (
+          <>
+            {openRentals && (
+              <ModalContainer
+                goBack={true}
+                title="Rentals"
+                width={matches ? "35%" : "80%"}
+                handleModalClose={() => setOpenRentals(false)}
+              >
+                <List
+                  onClick={(elem: any) => {
+                    setOpenRentalDetails(true);
+                    setOpenRentals(false);
+                    handleSelect(elem?.property_details?.id);
+                  }}
+                  arrDetails={allTenancyDetails?.map((elem: any) => ({
+                    label: elem.unit.unitName,
+                    value: elem.property_details?.propertyLocation,
+                    ...elem,
+                  }))}
+                  setOpenUnitModal={setOpenUnitModal}
+                  setOpenList={setOpenList}
+                  setModalIsOpen={setModalIsOpen}
+                  setOpenPropertyList={setOpenPropertyList}
+                  button={true}
+                  setOpenAddPropertyModal={setOpenAddPropertyModal}
+                />
+              </ModalContainer>
+            )}
+            {openRentalDetails && (
+              <ModalContainer
+                goBack={true}
+                title="Rental Details"
+                width={matches ? "35%" : "95%"}
+                handleModalClose={() => setOpenRentalDetails(false)}
+              >
+                <Rental
+                  landLordNumber={selected.landlord_detail.phoneNumber}
+                  landlordName={`${selected.landlord_detail.firstName} ${selected.landlord_detail.lastName}`}
+                  amount={formatCurrency(selected.unit.unitRent || 0)}
+                  lastRent={selected.tenancy.lastPaymentDate}
+                  nextRent={selected.tenancy.nextDueDate}
+                  duration={selected.tenancy.tenantDuration}
+                  propertyLocation={selected.property_details.propertyLocation}
+                  propertyName={selected.property_details.propertyName}
+                />
+              </ModalContainer>
+            )}
+          </>
+        )}
+        {action === "tenancy" && (
+          <>
+            {openTenancy && (
+              <ModalLayout
+                setPaymentDetails={setPaymentDetails}
+                buttonTitle="View Tenants"
+                handleModalOpen={() => {
+                  setOpenTenancy(false);
+                  setOpenProperty(true);
+                }}
+                label=""
+                value=""
+                title="Tenancy"
+                subText="Listed Properties"
+                setModalIsOpen={setOpenTenancy}
+              />
+            )}
+            {openProperty && (
+              <PropertyModal
+                onClick={() => {
+                  deleteProperty();
+                  setModalIsOpen(false);
+                }}
+                openAddPropertyModal={openAddPropertyModal}
                 setOpenAddPropertyModal={setOpenAddPropertyModal}
+                setOpenPropertyList={setOpenPropertyList}
+                modalTitle="View Tenants"
+                setOpenProperty={setOpenProperty}
+                handleModalClose={() => setOpenProperty(false)}
+                setAddUnitModal={setAddUnitModal}
+                setOpenUnitModal={setOpenUnitModal}
+                setModalIsOpen={setModalIsOpen}
+                setOpenList={setOpenList}
+                openList={openList}
+                label=""
+                propertyId=""
+                buttonTitle="Add New Tenant"
+                value="Property ID: MPM-240567"
+                record={false}
+                title="White House"
+                setOpenAddTenantModal={setOpenAddTenantModal}
               />
-            </ModalContainer>
-          )}
-          {openRentalDetails && (
-            <ModalContainer
-              goBack={true}
-              title="Rental Details"
-              width={matches ? "35%" : "95%"}
-              handleModalClose={() => setOpenRentalDetails(false)}
-            >
-              <Rental
-                landLordNumber={selected.landlord_detail.phoneNumber}
-                landlordName={`${selected.landlord_detail.firstName} ${selected.landlord_detail.lastName}`}
-                amount={formatCurrency(selected.unit.unitRent || 0)}
-                lastRent={selected.tenancy.lastPaymentDate}
-                nextRent={selected.tenancy.nextDueDate}
-                duration={selected.tenancy.tenantDuration}
-                propertyLocation={selected.property_details.propertyLocation}
-                propertyName={selected.property_details.propertyName}
-              />
-            </ModalContainer>
-          )}
-        </>
-      )}
-      {action === "tenancy" && (
-        <>
-          {openTenancy && (
-            <ModalLayout
-              setPaymentDetails={setPaymentDetails}
-              buttonTitle="View Tenants"
-              handleModalOpen={() => {
-                setOpenTenancy(false);
-                setOpenProperty(true);
-              }}
-              label=""
-              value=""
-              title="Tenancy"
-              subText="Listed Properties"
-              setModalIsOpen={setOpenTenancy}
-            />
-          )}
-          {openProperty && (
-            <PropertyModal
-              onClick={() => {
-                deleteProperty();
-                setModalIsOpen(false);
-              }}
-              openAddPropertyModal={openAddPropertyModal}
-              setOpenAddPropertyModal={setOpenAddPropertyModal}
-              setOpenPropertyList={setOpenPropertyList}
-              modalTitle="View Tenants"
-              setOpenProperty={setOpenProperty}
-              handleModalClose={() => setOpenProperty(false)}
-              setAddUnitModal={setAddUnitModal}
-              setOpenUnitModal={setOpenUnitModal}
-              setModalIsOpen={setModalIsOpen}
-              setOpenList={setOpenList}
-              openList={openList}
-              label=""
-              propertyId=""
-              buttonTitle="Add New Tenant"
-              value="Property ID: MPM-240567"
-              record={false}
-              title="White House"
-              setOpenAddTenantModal={setOpenAddTenantModal}
-            />
-          )}
-          {openAddTenantModal && (
-            <AddTenantToUnit setOpenAddTenantModal={setOpenAddTenantModal} />
-          )}
-        </>
-      )}
-    </DashboardLayout>
+            )}
+            {openAddTenantModal && (
+              <AddTenantToUnit setOpenAddTenantModal={setOpenAddTenantModal} />
+            )}
+          </>
+        )}
+      </DashboardLayout>
+    </LayoutContainer>
   );
 };
 export default Portfolio;

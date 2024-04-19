@@ -47,7 +47,6 @@ const Payment = () => {
   const { allTransactions } = useAppSelector(
     ({ transactionReducer }) => transactionReducer
   );
-  console.log(allTransactions, "pay");
 
   const dispatch = useAppThunkDispatch();
 

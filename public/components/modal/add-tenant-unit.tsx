@@ -63,7 +63,6 @@ export const AddTenantToUnit = ({ setOpenAddTenantModal }: props) => {
       });
     },
   });
-  console.log(values.tenantDuration, "values.moveInDate");
   return (
     <ModalContainer
       width={matches ? "35%" : "80%"}

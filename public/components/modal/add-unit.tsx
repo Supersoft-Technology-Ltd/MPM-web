@@ -23,7 +23,7 @@ import { Button } from "../button";
 import { IoCloseSharp } from "react-icons/io5";
 import { toast } from "react-toastify";
 import { useMediaQuery } from "../../hooks/usemediaquery";
-import { useParams,useSearchParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 
 type props = {
   setModalIsOpen: React.Dispatch<SetStateAction<any>>;
@@ -37,13 +37,12 @@ export const AddUnit = forwardRef(
     const [units, setUnits] = useState<any>([]);
     const [show, setShow] = useState(false);
     const dispatch = useAppThunkDispatch();
-    const params = useSearchParams()
+    const params = useSearchParams();
     const { property, setProperty, oneUnit } = useProperties();
     useEffect(() => {
       dispatch(getAllUnitTypes());
     }, []);
-    console.log(unitTypes, "allunits");
-    console.log(oneUnit, "unitsf");
+
     const matches = useMediaQuery("(min-width: 767px)");
     const handleAddUnits = (values: any) => {};
     const {
@@ -113,7 +112,6 @@ export const AddUnit = forwardRef(
         });
       },
     });
-    console.log(unitTypes, "unitTypes");
     const addUnitToProperty = async () => {
       await dispatch(AddUnits(units)).then((res) => {
         if (res.meta.requestStatus === "fulfilled") {
@@ -134,7 +132,10 @@ export const AddUnit = forwardRef(
     });
 
     useEffect(() => {
-      if (Object.keys(oneUnit ?? {}).length && params.get('action') === 'edit') {
+      if (
+        Object.keys(oneUnit ?? {}).length &&
+        params.get("action") === "edit"
+      ) {
         setFieldValue("unitName", oneUnit.unitName);
         setFieldValue("unitRent", oneUnit.unitRent);
         setFieldValue("unitServiceCharge", oneUnit.unitServiceCharge);
@@ -143,7 +144,7 @@ export const AddUnit = forwardRef(
         setFieldValue("unitCommissionCharge", oneUnit.unitCommissionCharge);
         setFieldValue("unitOtherCharges", oneUnit.unitOtherCharges);
         setFieldValue("unitTypeId", oneUnit.unitType.id);
-      }else if (params.get('action') === 'add'){
+      } else if (params.get("action") === "add") {
         setValues({
           unitName: "",
           unitRent: "",
@@ -343,7 +344,8 @@ export const AddUnit = forwardRef(
             />
           </div>
 
-          {Object.keys(oneUnit ?? {}).length && params.get('action') === 'edit' ? (
+          {Object.keys(oneUnit ?? {}).length &&
+          params.get("action") === "edit" ? (
             <div className="mt-4">
               <Button variant="submit" title="Edit Unit" />
             </div>

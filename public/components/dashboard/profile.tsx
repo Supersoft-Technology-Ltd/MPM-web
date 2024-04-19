@@ -24,11 +24,11 @@ export const Profile = () => {
     values,
   } = useFormik({
     initialValues: {
-      email: user?.email || '',
-      firstName: user?.firstName || '',
-      lastName: user?.lastName || '',
-      phoneNumber: user?.phoneNumber || '',
-      aliasName: user?.aliasName || '',
+      email: user?.email || "",
+      firstName: user?.firstName || "",
+      lastName: user?.lastName || "",
+      phoneNumber: user?.phoneNumber || "",
+      aliasName: user?.aliasName || "",
     },
     validationSchema: updateProfileValidation,
     onSubmit: async (values) => {
@@ -127,7 +127,11 @@ export const Profile = () => {
         />
       </div>
       <div className="mt-6">
-        <Button title="Update Profile" onClick={() => handleSubmit()} variant="submit" />
+        <Button
+          title="Update Profile"
+          onClick={() => handleSubmit()}
+          variant="submit"
+        />
       </div>
     </div>
   );

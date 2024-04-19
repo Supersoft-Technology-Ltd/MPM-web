@@ -47,7 +47,6 @@ const Dashboard = () => {
       dispatch(getAllProperties(user.id));
     }
   }, [user]);
-  console.log(allProperties, "allprops");
   return (
     <LayoutContainer>
       <DashboardLayout>
