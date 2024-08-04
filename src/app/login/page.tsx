@@ -15,7 +15,8 @@ import { toast } from "react-toastify";
 import { useFormik } from "formik";
 import { Inputs } from "../../../public/components/input";
 import { ResetPassword } from "../../../public/components/modal/reset-password";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Login = () => {
   const dispatch = useAppThunkDispatch();
@@ -43,24 +44,35 @@ const Login = () => {
         email: values.email,
         password: values.password,
       };
-      await dispatch(signIn(payload)).then((res) => {
-        if (res.meta.requestStatus === "fulfilled") {
-          toast.success("Logged in successfully");
+      const resp = await axios.get(`https://34.193.59.96:10085/api/v1/accounts/submitusername/${values.email}`)
 
-          if (!res.payload.completed) {
-         router.push('/complete-profile')
-          } 
-          else {
-            router.push("/dashboard");
-            setOpenModal(false);
-          }
-        } else {
-          console.log(res?.payload?.data?.response);
-        }
-        setLoading(false)
-      });
+      // await dispatch(signIn(payload)).then((res) => {
+      //   if (res.meta.requestStatus === "fulfilled") {
+      //     toast.success("Logged in successfully");
+
+      //     if (!res.payload.completed) {
+      //    router.push('/complete-profile')
+      //     } 
+      //     else {
+      //       router.push("/dashboard");
+      //       setOpenModal(false);
+      //     }
+      //   } else {
+      //     console.log(res?.payload?.data?.response);
+      //   }
+      //   setLoading(false)
+      // });
+      console.log(resp, 'resp')
     },
   });
+  useEffect(()=>{
+    (async () => {
+      try {
+      } catch(e){
+        console.log(e, 'err')
+      }
+    })()
+  }, [])
   return (
     <Auth>
       <div className="lg:w-[70%] w-[100%] lg:mx-[10%]mx-[0%] bg-[#FFFFFF] h-auto my-[6%] lg:px-[7%] px-[5%] py-6 rounded-[10px] shadow-sm">
